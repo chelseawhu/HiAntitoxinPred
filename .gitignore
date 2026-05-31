@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Large generated artifacts
+features/
+logs/
+checkpoints/
+*.pkl
+*.pt
+*.pth
+*.npz
+*.npy
+*.log
+
+# Manuscript/build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+
+# OS/editor
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,577 @@
+test_label,method,metric,metric_key,mean,std,n
+"Test on
+Proteobacteria",HiAntitoxinPred,Acc,accuracy,0.96504329004329,0.0075428319747631,5
+"Test on
+Proteobacteria",HiAntitoxinPred,Prec,precision,0.8127918506948776,0.0581349577816358,5
+"Test on
+Proteobacteria",HiAntitoxinPred,Recall,recall,0.8071428571428572,0.0762973580674492,5
+"Test on
+Proteobacteria",HiAntitoxinPred,Spec,specificity,0.9808333333333332,0.0079792993230656,5
+"Test on
+Proteobacteria",HiAntitoxinPred,MCC,mcc,0.789561737041703,0.0458785396202895,5
+"Test on
+Proteobacteria",HiAntitoxinPred,F1,f1,0.806939864614928,0.0438063421418129,5
+"Test on
+Proteobacteria",ESM2 + MLP,Acc,accuracy,0.9639610389610388,0.0113996543188152,5
+"Test on
+Proteobacteria",ESM2 + MLP,Prec,precision,0.8164951430994212,0.1196941092302621,5
+"Test on
+Proteobacteria",ESM2 + MLP,Recall,recall,0.819047619047619,0.0844525185601735,5
+"Test on
+Proteobacteria",ESM2 + MLP,Spec,specificity,0.978452380952381,0.0191653726271238,5
+"Test on
+Proteobacteria",ESM2 + MLP,MCC,mcc,0.7940874957039583,0.0362482153018063,5
+"Test on
+Proteobacteria",ESM2 + MLP,F1,f1,0.8077497411573653,0.0358505326926913,5
+"Test on
+Proteobacteria",ESM2 + Random Forest,Acc,accuracy,0.9702380952380952,0.001269051883069,5
+"Test on
+Proteobacteria",ESM2 + Random Forest,Prec,precision,0.8584472177913639,0.0345557993296401,5
+"Test on
+Proteobacteria",ESM2 + Random Forest,Recall,recall,0.8083333333333333,0.0332481905804022,5
+"Test on
+Proteobacteria",ESM2 + Random Forest,Spec,specificity,0.9864285714285714,0.004321117003067,5
+"Test on
+Proteobacteria",ESM2 + Random Forest,MCC,mcc,0.81634085542528,0.0050942606238206,5
+"Test on
+Proteobacteria",ESM2 + Random Forest,F1,f1,0.8315522085631899,0.005094308254812,5
+"Test on
+Proteobacteria",ProtBERT + MLP,Acc,accuracy,0.95487012987013,0.0056831064299204,5
+"Test on
+Proteobacteria",ProtBERT + MLP,Prec,precision,0.7486749590651859,0.0916372492835506,5
+"Test on
+Proteobacteria",ProtBERT + MLP,Recall,recall,0.7940476190476191,0.0945473462360107,5
+"Test on
+Proteobacteria",ProtBERT + MLP,Spec,specificity,0.970952380952381,0.0152420474785334,5
+"Test on
+Proteobacteria",ProtBERT + MLP,MCC,mcc,0.7428338744477009,0.0117812903805513,5
+"Test on
+Proteobacteria",ProtBERT + MLP,F1,f1,0.7618282395730323,0.0105513422861233,5
+"Test on
+Proteobacteria",ESM2 per-residue + BiLSTM,Acc,accuracy,0.9641774891774892,0.0057953509677447,5
+"Test on
+Proteobacteria",ESM2 per-residue + BiLSTM,Prec,precision,0.7674687768534143,0.0412715911762456,5
+"Test on
+Proteobacteria",ESM2 per-residue + BiLSTM,Recall,recall,0.8738095238095239,0.0277281302353622,5
+"Test on
+Proteobacteria",ESM2 per-residue + BiLSTM,Spec,specificity,0.9732142857142858,0.006747490505211,5
+"Test on
+Proteobacteria",ESM2 per-residue + BiLSTM,MCC,mcc,0.7992305225383377,0.0263892981377573,5
+"Test on
+Proteobacteria",ESM2 per-residue + BiLSTM,F1,f1,0.8164350460221919,0.0248706383860886,5
+"Test on
+Proteobacteria",BLASTP,Acc,accuracy,0.946969696969697,0.0,1
+"Test on
+Proteobacteria",BLASTP,Prec,precision,0.7058823529411765,0.0,1
+"Test on
+Proteobacteria",BLASTP,Recall,recall,0.7142857142857143,0.0,1
+"Test on
+Proteobacteria",BLASTP,Spec,specificity,0.9702380952380952,0.0,1
+"Test on
+Proteobacteria",BLASTP,MCC,mcc,0.6808906985029678,0.0,1
+"Test on
+Proteobacteria",BLASTP,F1,f1,0.7100591715976331,0.0,1
+"Test on
+Proteobacteria",PSI-BLAST,Acc,accuracy,0.9437229437229436,0.0,1
+"Test on
+Proteobacteria",PSI-BLAST,Prec,precision,0.6839080459770115,0.0,1
+"Test on
+Proteobacteria",PSI-BLAST,Recall,recall,0.7083333333333334,0.0,1
+"Test on
+Proteobacteria",PSI-BLAST,Spec,specificity,0.9672619047619048,0.0,1
+"Test on
+Proteobacteria",PSI-BLAST,MCC,mcc,0.6650334813403331,0.0,1
+"Test on
+Proteobacteria",PSI-BLAST,F1,f1,0.695906432748538,0.0,1
+"Test on
+Proteobacteria",HMMER/phmmer,Acc,accuracy,0.9561688311688312,0.0,1
+"Test on
+Proteobacteria",HMMER/phmmer,Prec,precision,0.9065420560747663,0.0,1
+"Test on
+Proteobacteria",HMMER/phmmer,Recall,recall,0.5773809523809523,0.0,1
+"Test on
+Proteobacteria",HMMER/phmmer,Spec,specificity,0.9940476190476192,0.0,1
+"Test on
+Proteobacteria",HMMER/phmmer,MCC,mcc,0.7033637123837905,0.0,1
+"Test on
+Proteobacteria",HMMER/phmmer,F1,f1,0.7054545454545454,0.0,1
+"Test on
+Proteobacteria",SProtFP,Acc,accuracy,0.8836580086580087,0.0,1
+"Test on
+Proteobacteria",SProtFP,Prec,precision,0.3807106598984771,0.0,1
+"Test on
+Proteobacteria",SProtFP,Recall,recall,0.4464285714285714,0.0,1
+"Test on
+Proteobacteria",SProtFP,Spec,specificity,0.9273809523809524,0.0,1
+"Test on
+Proteobacteria",SProtFP,MCC,mcc,0.3482194249798448,0.0,1
+"Test on
+Proteobacteria",SProtFP,F1,f1,0.410958904109589,0.0,1
+"Test on
+Proteobacteria",AMP Scanner v2,Acc,accuracy,0.88982683982684,0.0093381399810002,5
+"Test on
+Proteobacteria",AMP Scanner v2,Prec,precision,0.3089766686592323,0.0567829889896128,5
+"Test on
+Proteobacteria",AMP Scanner v2,Recall,recall,0.1642857142857142,0.0514803531200944,5
+"Test on
+Proteobacteria",AMP Scanner v2,Spec,specificity,0.9623809523809524,0.013821833594,5
+"Test on
+Proteobacteria",AMP Scanner v2,MCC,mcc,0.1685003512705084,0.041157900008694,5
+"Test on
+Proteobacteria",AMP Scanner v2,F1,f1,0.2099825952008417,0.0483677545053853,5
+"Test on
+Proteobacteria",Foldseek,Acc,accuracy,0.91504329004329,0.0,1
+"Test on
+Proteobacteria",Foldseek,Prec,precision,0.5369127516778524,0.0,1
+"Test on
+Proteobacteria",Foldseek,Recall,recall,0.4761904761904761,0.0,1
+"Test on
+Proteobacteria",Foldseek,Spec,specificity,0.9589285714285716,0.0,1
+"Test on
+Proteobacteria",Foldseek,MCC,mcc,0.4594386776739274,0.0,1
+"Test on
+Proteobacteria",Foldseek,F1,f1,0.5047318611987381,0.0,1
+"Test on
+Proteobacteria",TM-align,Acc,accuracy,0.8755411255411255,0.0,1
+"Test on
+Proteobacteria",TM-align,Prec,precision,0.2905405405405405,0.0,1
+"Test on
+Proteobacteria",TM-align,Recall,recall,0.2559523809523809,0.0,1
+"Test on
+Proteobacteria",TM-align,Spec,specificity,0.9375,0.0,1
+"Test on
+Proteobacteria",TM-align,MCC,mcc,0.204893434630905,0.0,1
+"Test on
+Proteobacteria",TM-align,F1,f1,0.2721518987341772,0.0,1
+"Test on
+Firmicutes",HiAntitoxinPred,Acc,accuracy,0.973939393939394,0.0016597653257732,5
+"Test on
+Firmicutes",HiAntitoxinPred,Prec,precision,0.9618155231744684,0.0161222831722684,5
+"Test on
+Firmicutes",HiAntitoxinPred,Recall,recall,0.7433333333333334,0.0278886675511358,5
+"Test on
+Firmicutes",HiAntitoxinPred,Spec,specificity,0.997,0.0013944333775567,5
+"Test on
+Firmicutes",HiAntitoxinPred,MCC,mcc,0.8325656393849374,0.0115669873396386,5
+"Test on
+Firmicutes",HiAntitoxinPred,F1,f1,0.8381278526208847,0.0136263404272854,5
+"Test on
+Firmicutes",ESM2 + MLP,Acc,accuracy,0.9636363636363636,0.0046700106083097,5
+"Test on
+Firmicutes",ESM2 + MLP,Prec,precision,0.8980272666901051,0.0888667003624431,5
+"Test on
+Firmicutes",ESM2 + MLP,Recall,recall,0.6866666666666668,0.0341565025531986,5
+"Test on
+Firmicutes",ESM2 + MLP,Spec,specificity,0.9913333333333332,0.0079407528330477,5
+"Test on
+Firmicutes",ESM2 + MLP,MCC,mcc,0.7654907276627481,0.0269905874364183,5
+"Test on
+Firmicutes",ESM2 + MLP,F1,f1,0.7750281144349541,0.0175160970841742,5
+"Test on
+Firmicutes",ESM2 + Random Forest,Acc,accuracy,0.9624242424242424,0.0022473328748774,5
+"Test on
+Firmicutes",ESM2 + Random Forest,Prec,precision,0.9846153846153848,0.034401045807689,5
+"Test on
+Firmicutes",ESM2 + Random Forest,Recall,recall,0.5966666666666667,0.0139443337755679,5
+"Test on
+Firmicutes",ESM2 + Random Forest,Spec,specificity,0.999,0.0022360679774997,5
+"Test on
+Firmicutes",ESM2 + Random Forest,MCC,mcc,0.7504575701703031,0.0167804609819956,5
+"Test on
+Firmicutes",ESM2 + Random Forest,F1,f1,0.7427687071474375,0.0138509542834893,5
+"Test on
+Firmicutes",ProtBERT + MLP,Acc,accuracy,0.9463636363636364,0.0119591437943461,5
+"Test on
+Firmicutes",ProtBERT + MLP,Prec,precision,0.7128945128945128,0.0890461894538996,5
+"Test on
+Firmicutes",ProtBERT + MLP,Recall,recall,0.7133333333333333,0.0320589734361189,5
+"Test on
+Firmicutes",ProtBERT + MLP,Spec,specificity,0.9696666666666668,0.0147384606462894,5
+"Test on
+Firmicutes",ProtBERT + MLP,MCC,mcc,0.6823259513985093,0.0471308188481497,5
+"Test on
+Firmicutes",ProtBERT + MLP,F1,f1,0.7097496378203522,0.0422406897475734,5
+"Test on
+Firmicutes",ESM2 per-residue + BiLSTM,Acc,accuracy,0.971818181818182,0.002297841043652,5
+"Test on
+Firmicutes",ESM2 per-residue + BiLSTM,Prec,precision,0.9659507749540972,0.0392643875993406,5
+"Test on
+Firmicutes",ESM2 per-residue + BiLSTM,Recall,recall,0.7166666666666666,0.0166666666666666,5
+"Test on
+Firmicutes",ESM2 per-residue + BiLSTM,Spec,specificity,0.9973333333333332,0.0032489314482695,5
+"Test on
+Firmicutes",ESM2 per-residue + BiLSTM,MCC,mcc,0.8182736918201116,0.0149824977384026,5
+"Test on
+Firmicutes",ESM2 per-residue + BiLSTM,F1,f1,0.822284231381366,0.0116401211929677,5
+"Test on
+Firmicutes",BLASTP,Acc,accuracy,0.9454545454545454,0.0,1
+"Test on
+Firmicutes",BLASTP,Prec,precision,0.7,0.0,1
+"Test on
+Firmicutes",BLASTP,Recall,recall,0.7,0.0,1
+"Test on
+Firmicutes",BLASTP,Spec,specificity,0.97,0.0,1
+"Test on
+Firmicutes",BLASTP,MCC,mcc,0.67,0.0,1
+"Test on
+Firmicutes",BLASTP,F1,f1,0.7,0.0,1
+"Test on
+Firmicutes",PSI-BLAST,Acc,accuracy,0.943939393939394,0.0,1
+"Test on
+Firmicutes",PSI-BLAST,Prec,precision,0.7017543859649122,0.0,1
+"Test on
+Firmicutes",PSI-BLAST,Recall,recall,0.6666666666666666,0.0,1
+"Test on
+Firmicutes",PSI-BLAST,Spec,specificity,0.9716666666666668,0.0,1
+"Test on
+Firmicutes",PSI-BLAST,MCC,mcc,0.6532850053287811,0.0,1
+"Test on
+Firmicutes",PSI-BLAST,F1,f1,0.6837606837606838,0.0,1
+"Test on
+Firmicutes",HMMER/phmmer,Acc,accuracy,0.953030303030303,0.0,1
+"Test on
+Firmicutes",HMMER/phmmer,Prec,precision,0.967741935483871,0.0,1
+"Test on
+Firmicutes",HMMER/phmmer,Recall,recall,0.5,0.0,1
+"Test on
+Firmicutes",HMMER/phmmer,Spec,specificity,0.9983333333333332,0.0,1
+"Test on
+Firmicutes",HMMER/phmmer,MCC,mcc,0.6771190286674401,0.0,1
+"Test on
+Firmicutes",HMMER/phmmer,F1,f1,0.6593406593406593,0.0,1
+"Test on
+Firmicutes",SProtFP,Acc,accuracy,0.8863636363636364,0.0,1
+"Test on
+Firmicutes",SProtFP,Prec,precision,0.3170731707317073,0.0,1
+"Test on
+Firmicutes",SProtFP,Recall,recall,0.2166666666666666,0.0,1
+"Test on
+Firmicutes",SProtFP,Spec,specificity,0.9533333333333334,0.0,1
+"Test on
+Firmicutes",SProtFP,MCC,mcc,0.2024710424501545,0.0,1
+"Test on
+Firmicutes",SProtFP,F1,f1,0.2574257425742574,0.0,1
+"Test on
+Firmicutes",AMP Scanner v2,Acc,accuracy,0.906969696969697,0.0039510317607288,5
+"Test on
+Firmicutes",AMP Scanner v2,Prec,precision,0.3846794871794871,0.2258435771383553,5
+"Test on
+Firmicutes",AMP Scanner v2,Recall,recall,0.1299999999999999,0.1023338762200583,5
+"Test on
+Firmicutes",AMP Scanner v2,Spec,specificity,0.9846666666666668,0.0139144209764944,5
+"Test on
+Firmicutes",AMP Scanner v2,MCC,mcc,0.1862457214925869,0.1119377069040967,5
+"Test on
+Firmicutes",AMP Scanner v2,F1,f1,0.1848146882357408,0.1236032730345247,5
+"Test on
+Firmicutes",Foldseek,Acc,accuracy,0.9242424242424242,0.0,1
+"Test on
+Firmicutes",Foldseek,Prec,precision,0.6041666666666666,0.0,1
+"Test on
+Firmicutes",Foldseek,Recall,recall,0.4833333333333333,0.0,1
+"Test on
+Firmicutes",Foldseek,Spec,specificity,0.9683333333333334,0.0,1
+"Test on
+Firmicutes",Foldseek,MCC,mcc,0.5000034041278455,0.0,1
+"Test on
+Firmicutes",Foldseek,F1,f1,0.5370370370370371,0.0,1
+"Test on
+Firmicutes",TM-align,Acc,accuracy,0.8803030303030303,0.0,1
+"Test on
+Firmicutes",TM-align,Prec,precision,0.3442622950819672,0.0,1
+"Test on
+Firmicutes",TM-align,Recall,recall,0.35,0.0,1
+"Test on
+Firmicutes",TM-align,Spec,specificity,0.9333333333333332,0.0,1
+"Test on
+Firmicutes",TM-align,MCC,mcc,0.2812357929791906,0.0,1
+"Test on
+Firmicutes",TM-align,F1,f1,0.3471074380165289,0.0,1
+"Test on
+Actinobacteria",HiAntitoxinPred,Acc,accuracy,0.9866837387964148,0.0014598917094739,5
+"Test on
+Actinobacteria",HiAntitoxinPred,Prec,precision,0.9382373048573454,0.0330691615141051,5
+"Test on
+Actinobacteria",HiAntitoxinPred,Recall,recall,0.9154929577464788,0.0263496999068587,5
+"Test on
+Actinobacteria",HiAntitoxinPred,Spec,specificity,0.9938028169014086,0.0036727900874381,5
+"Test on
+Actinobacteria",HiAntitoxinPred,MCC,mcc,0.9192082121048548,0.007874637585115,5
+"Test on
+Actinobacteria",HiAntitoxinPred,F1,f1,0.9260023223846956,0.0068359251287901,5
+"Test on
+Actinobacteria",ESM2 + MLP,Acc,accuracy,0.9871959026888604,0.002024505544282,5
+"Test on
+Actinobacteria",ESM2 + MLP,Prec,precision,0.9532411326488166,0.0265967588623909,5
+"Test on
+Actinobacteria",ESM2 + MLP,Recall,recall,0.904225352112676,0.0062987830352106,5
+"Test on
+Actinobacteria",ESM2 + MLP,Spec,specificity,0.9954929577464788,0.0027092090227705,5
+"Test on
+Actinobacteria",ESM2 + MLP,MCC,mcc,0.9213674122279144,0.0118065921801584,5
+"Test on
+Actinobacteria",ESM2 + MLP,F1,f1,0.9278751077828712,0.0102577744163464,5
+"Test on
+Actinobacteria",ESM2 + Random Forest,Acc,accuracy,0.9892445582586428,0.0007013092925803,5
+"Test on
+Actinobacteria",ESM2 + Random Forest,Prec,precision,0.9699683401175936,0.0002477261680258,5
+"Test on
+Actinobacteria",ESM2 + Random Forest,Recall,recall,0.9098591549295774,0.0077144022183825,5
+"Test on
+Actinobacteria",ESM2 + Random Forest,Spec,specificity,0.9971830985915492,0.0,5
+"Test on
+Actinobacteria",ESM2 + Random Forest,MCC,mcc,0.9336311811116036,0.004462011811566,5
+"Test on
+Actinobacteria",ESM2 + Random Forest,F1,f1,0.938940019041574,0.0042297415315643,5
+"Test on
+Actinobacteria",ProtBERT + MLP,Acc,accuracy,0.9725992317541612,0.011615793526291,5
+"Test on
+Actinobacteria",ProtBERT + MLP,Prec,precision,0.8187236379080209,0.0973647900798564,5
+"Test on
+Actinobacteria",ProtBERT + MLP,Recall,recall,0.9154929577464788,0.0140845070422535,5
+"Test on
+Actinobacteria",ProtBERT + MLP,Spec,specificity,0.9783098591549296,0.0138930651218678,5
+"Test on
+Actinobacteria",ProtBERT + MLP,MCC,mcc,0.849802209437797,0.0519253342206036,5
+"Test on
+Actinobacteria",ProtBERT + MLP,F1,f1,0.8614172045962846,0.0494622926451256,5
+"Test on
+Actinobacteria",ESM2 per-residue + BiLSTM,Acc,accuracy,0.9884763124199744,0.0009053864035679,5
+"Test on
+Actinobacteria",ESM2 per-residue + BiLSTM,Prec,precision,0.9587993403957064,0.0112876225511587,5
+"Test on
+Actinobacteria",ESM2 per-residue + BiLSTM,Recall,recall,0.9126760563380282,0.0154288044367652,5
+"Test on
+Actinobacteria",ESM2 per-residue + BiLSTM,Spec,specificity,0.9960563380281692,0.001178394403569,5
+"Test on
+Actinobacteria",ESM2 per-residue + BiLSTM,MCC,mcc,0.9291371105838632,0.0058030639895286,5
+"Test on
+Actinobacteria",ESM2 per-residue + BiLSTM,F1,f1,0.935035345238658,0.0054719140162786,5
+"Test on
+Actinobacteria",BLASTP,Acc,accuracy,0.9462227912932138,0.0,1
+"Test on
+Actinobacteria",BLASTP,Prec,precision,0.7164179104477612,0.0,1
+"Test on
+Actinobacteria",BLASTP,Recall,recall,0.676056338028169,0.0,1
+"Test on
+Actinobacteria",BLASTP,Spec,specificity,0.9732394366197183,0.0,1
+"Test on
+Actinobacteria",BLASTP,MCC,mcc,0.6665218915504951,0.0,1
+"Test on
+Actinobacteria",BLASTP,F1,f1,0.6956521739130435,0.0,1
+"Test on
+Actinobacteria",PSI-BLAST,Acc,accuracy,0.9551856594110116,0.0,1
+"Test on
+Actinobacteria",PSI-BLAST,Prec,precision,0.7647058823529411,0.0,1
+"Test on
+Actinobacteria",PSI-BLAST,Recall,recall,0.7323943661971831,0.0,1
+"Test on
+Actinobacteria",PSI-BLAST,Spec,specificity,0.9774647887323944,0.0,1
+"Test on
+Actinobacteria",PSI-BLAST,MCC,mcc,0.7238212269272363,0.0,1
+"Test on
+Actinobacteria",PSI-BLAST,F1,f1,0.7482014388489209,0.0,1
+"Test on
+Actinobacteria",HMMER/phmmer,Acc,accuracy,0.9564660691421256,0.0,1
+"Test on
+Actinobacteria",HMMER/phmmer,Prec,precision,0.951219512195122,0.0,1
+"Test on
+Actinobacteria",HMMER/phmmer,Recall,recall,0.5492957746478874,0.0,1
+"Test on
+Actinobacteria",HMMER/phmmer,Spec,specificity,0.9971830985915492,0.0,1
+"Test on
+Actinobacteria",HMMER/phmmer,MCC,mcc,0.7044074448676493,0.0,1
+"Test on
+Actinobacteria",HMMER/phmmer,F1,f1,0.6964285714285714,0.0,1
+"Test on
+Actinobacteria",SProtFP,Acc,accuracy,0.8668373879641486,0.0,1
+"Test on
+Actinobacteria",SProtFP,Prec,precision,0.3846153846153846,0.0,1
+"Test on
+Actinobacteria",SProtFP,Recall,recall,0.7746478873239436,0.0,1
+"Test on
+Actinobacteria",SProtFP,Spec,specificity,0.8760563380281691,0.0,1
+"Test on
+Actinobacteria",SProtFP,MCC,mcc,0.4836861116901227,0.0,1
+"Test on
+Actinobacteria",SProtFP,F1,f1,0.514018691588785,0.0,1
+"Test on
+Actinobacteria",AMP Scanner v2,Acc,accuracy,0.900640204865557,0.0124008194753426,5
+"Test on
+Actinobacteria",AMP Scanner v2,Prec,precision,0.354055211828321,0.2103903400382206,5
+"Test on
+Actinobacteria",AMP Scanner v2,Recall,recall,0.2478873239436619,0.1438413682443581,5
+"Test on
+Actinobacteria",AMP Scanner v2,Spec,specificity,0.9659154929577464,0.0236393251786467,5
+"Test on
+Actinobacteria",AMP Scanner v2,MCC,mcc,0.2486481122200726,0.1509551116200028,5
+"Test on
+Actinobacteria",AMP Scanner v2,F1,f1,0.2867941814283277,0.1621335394409983,5
+"Test on
+Actinobacteria",Foldseek,Acc,accuracy,0.9308578745198464,0.0,1
+"Test on
+Actinobacteria",Foldseek,Prec,precision,0.639344262295082,0.0,1
+"Test on
+Actinobacteria",Foldseek,Recall,recall,0.5492957746478874,0.0,1
+"Test on
+Actinobacteria",Foldseek,Spec,specificity,0.9690140845070424,0.0,1
+"Test on
+Actinobacteria",Foldseek,MCC,mcc,0.5552859090607803,0.0,1
+"Test on
+Actinobacteria",Foldseek,F1,f1,0.5909090909090909,0.0,1
+"Test on
+Actinobacteria",TM-align,Acc,accuracy,0.8783610755441741,0.0,1
+"Test on
+Actinobacteria",TM-align,Prec,precision,0.3064516129032258,0.0,1
+"Test on
+Actinobacteria",TM-align,Recall,recall,0.2676056338028169,0.0,1
+"Test on
+Actinobacteria",TM-align,Spec,specificity,0.9394366197183098,0.0,1
+"Test on
+Actinobacteria",TM-align,MCC,mcc,0.2201694435553086,0.0,1
+"Test on
+Actinobacteria",TM-align,F1,f1,0.2857142857142857,0.0,1
+"Test on
+Other sources",HiAntitoxinPred,Acc,accuracy,0.9857493857493858,0.0026915113390916,5
+"Test on
+Other sources",HiAntitoxinPred,Prec,precision,0.9437908496732026,0.0269632599378355,5
+"Test on
+Other sources",HiAntitoxinPred,Recall,recall,0.8972972972972973,0.0120868539324313,5
+"Test on
+Other sources",HiAntitoxinPred,Spec,specificity,0.9945945945945944,0.0027027027027027,5
+"Test on
+Other sources",HiAntitoxinPred,MCC,mcc,0.9124200022221596,0.01612100272951,5
+"Test on
+Other sources",HiAntitoxinPred,F1,f1,0.9197761913949448,0.0143232600526708,5
+"Test on
+Other sources",ESM2 + MLP,Acc,accuracy,0.9803439803439804,0.0030092011582102,5
+"Test on
+Other sources",ESM2 + MLP,Prec,precision,0.9373265046312712,0.0390373062792442,5
+"Test on
+Other sources",ESM2 + MLP,Recall,recall,0.8432432432432433,0.0585931983477805,5
+"Test on
+Other sources",ESM2 + MLP,Spec,specificity,0.994054054054054,0.0044409937095013,5
+"Test on
+Other sources",ESM2 + MLP,MCC,mcc,0.8777267401634654,0.0206682397926479,5
+"Test on
+Other sources",ESM2 + MLP,F1,f1,0.8857790303292609,0.0216708187425431,5
+"Test on
+Other sources",ESM2 + Random Forest,Acc,accuracy,0.974938574938575,0.0076522906645687,5
+"Test on
+Other sources",ESM2 + Random Forest,Prec,precision,0.9344929074720346,0.0070947418975281,5
+"Test on
+Other sources",ESM2 + Random Forest,Recall,recall,0.7783783783783784,0.0841751973102564,5
+"Test on
+Other sources",ESM2 + Random Forest,Spec,specificity,0.9945945945945948,1.2412670766236366e-16,5
+"Test on
+Other sources",ESM2 + Random Forest,MCC,mcc,0.8392117833190428,0.0533062159302687,5
+"Test on
+Other sources",ESM2 + Random Forest,F1,f1,0.8475579140632499,0.0544494917036718,5
+"Test on
+Other sources",ProtBERT + MLP,Acc,accuracy,0.9769041769041772,0.0032964147088449,5
+"Test on
+Other sources",ProtBERT + MLP,Prec,precision,0.916121474982955,0.0229653147571062,5
+"Test on
+Other sources",ProtBERT + MLP,Recall,recall,0.8216216216216218,0.0308155520297064,5
+"Test on
+Other sources",ProtBERT + MLP,Spec,specificity,0.9924324324324324,0.0022612433149569,5
+"Test on
+Other sources",ProtBERT + MLP,MCC,mcc,0.8550779461035969,0.0213008438182559,5
+"Test on
+Other sources",ProtBERT + MLP,F1,f1,0.8659515261503661,0.0199973223935146,5
+"Test on
+Other sources",ESM2 per-residue + BiLSTM,Acc,accuracy,0.9823095823095824,0.0032035392654558,5
+"Test on
+Other sources",ESM2 per-residue + BiLSTM,Prec,precision,0.9324169786669788,0.0398618252735538,5
+"Test on
+Other sources",ESM2 per-residue + BiLSTM,Recall,recall,0.8702702702702704,0.0226124331495696,5
+"Test on
+Other sources",ESM2 per-residue + BiLSTM,Spec,specificity,0.9935135135135136,0.0040988515913791,5
+"Test on
+Other sources",ESM2 per-residue + BiLSTM,MCC,mcc,0.89095776152903,0.0187550726089909,5
+"Test on
+Other sources",ESM2 per-residue + BiLSTM,F1,f1,0.8996214652498156,0.0165174181946249,5
+"Test on
+Other sources",BLASTP,Acc,accuracy,0.9606879606879608,0.0,1
+"Test on
+Other sources",BLASTP,Prec,precision,0.8620689655172413,0.0,1
+"Test on
+Other sources",BLASTP,Recall,recall,0.6756756756756757,0.0,1
+"Test on
+Other sources",BLASTP,Spec,specificity,0.9891891891891892,0.0,1
+"Test on
+Other sources",BLASTP,MCC,mcc,0.7430023857000686,0.0,1
+"Test on
+Other sources",BLASTP,F1,f1,0.7575757575757576,0.0,1
+"Test on
+Other sources",PSI-BLAST,Acc,accuracy,0.968058968058968,0.0,1
+"Test on
+Other sources",PSI-BLAST,Prec,precision,0.9,0.0,1
+"Test on
+Other sources",PSI-BLAST,Recall,recall,0.7297297297297297,0.0,1
+"Test on
+Other sources",PSI-BLAST,Spec,specificity,0.991891891891892,0.0,1
+"Test on
+Other sources",PSI-BLAST,MCC,mcc,0.7939258796558202,0.0,1
+"Test on
+Other sources",PSI-BLAST,F1,f1,0.8059701492537313,0.0,1
+"Test on
+Other sources",HMMER/phmmer,Acc,accuracy,0.9606879606879608,0.0,1
+"Test on
+Other sources",HMMER/phmmer,Prec,precision,0.92,0.0,1
+"Test on
+Other sources",HMMER/phmmer,Recall,recall,0.6216216216216216,0.0,1
+"Test on
+Other sources",HMMER/phmmer,Spec,specificity,0.9945945945945946,0.0,1
+"Test on
+Other sources",HMMER/phmmer,MCC,mcc,0.7377906739272538,0.0,1
+"Test on
+Other sources",HMMER/phmmer,F1,f1,0.7419354838709677,0.0,1
+"Test on
+Other sources",SProtFP,Acc,accuracy,0.8943488943488943,0.0,1
+"Test on
+Other sources",SProtFP,Prec,precision,0.4117647058823529,0.0,1
+"Test on
+Other sources",SProtFP,Recall,recall,0.3783783783783784,0.0,1
+"Test on
+Other sources",SProtFP,Spec,specificity,0.945945945945946,0.0,1
+"Test on
+Other sources",SProtFP,MCC,mcc,0.3369670001442993,0.0,1
+"Test on
+Other sources",SProtFP,F1,f1,0.3943661971830985,0.0,1
+"Test on
+Other sources",AMP Scanner v2,Acc,accuracy,0.9051597051597052,0.0103661047222255,5
+"Test on
+Other sources",AMP Scanner v2,Prec,precision,0.4841466768525591,0.1261613455484774,5
+"Test on
+Other sources",AMP Scanner v2,Recall,recall,0.1729729729729729,0.0490970327691485,5
+"Test on
+Other sources",AMP Scanner v2,Spec,specificity,0.9783783783783784,0.0146794330962165,5
+"Test on
+Other sources",AMP Scanner v2,MCC,mcc,0.2430267762203523,0.0465195303054336,5
+"Test on
+Other sources",AMP Scanner v2,F1,f1,0.246185522107181,0.0467323937498503,5
+"Test on
+Other sources",Foldseek,Acc,accuracy,0.9385749385749386,0.0,1
+"Test on
+Other sources",Foldseek,Prec,precision,0.6666666666666666,0.0,1
+"Test on
+Other sources",Foldseek,Recall,recall,0.6486486486486487,0.0,1
+"Test on
+Other sources",Foldseek,Spec,specificity,0.9675675675675676,0.0,1
+"Test on
+Other sources",Foldseek,MCC,mcc,0.6238736481379625,0.0,1
+"Test on
+Other sources",Foldseek,F1,f1,0.6575342465753424,0.0,1
+"Test on
+Other sources",TM-align,Acc,accuracy,0.8992628992628993,0.0,1
+"Test on
+Other sources",TM-align,Prec,precision,0.4375,0.0,1
+"Test on
+Other sources",TM-align,Recall,recall,0.3783783783783784,0.0,1
+"Test on
+Other sources",TM-align,Spec,specificity,0.9513513513513514,0.0,1
+"Test on
+Other sources",TM-align,MCC,mcc,0.3521836642056717,0.0,1
+"Test on
+Other sources",TM-align,F1,f1,0.4057971014492754,0.0,1

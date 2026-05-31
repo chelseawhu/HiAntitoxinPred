@@ -1,0 +1,21 @@
+{
+  "dataset_seed": 42,
+  "ratio_token": "ratio_max",
+  "ratio_label": "max",
+  "target_ratio": null,
+  "search_status": "anchored_max_randomized",
+  "target_negative_count": 10471,
+  "achieved_negative_count": 10471,
+  "achieved_ratio": 31.163690476190474,
+  "absolute_error": 0,
+  "selected_legacy_negative_count": 2777,
+  "selected_extra_negative_count": 7694,
+  "positive_count": 336,
+  "negative_count": 10471,
+  "total_count": 10807,
+  "source_feature_payload": "legacy_original_workspace/outputs/features/anchored_imbalance/ratio_max/esm2_per_residue_features.pkl",
+  "processed_sequences_path": "legacy_original_workspace/outputs/anchored_imbalance_dataset_seed_datasets/dataset_seed_42/ratio_max/processed_sequences.csv",
+  "all_data_path": "legacy_original_workspace/outputs/anchored_imbalance_dataset_seed_datasets/dataset_seed_42/ratio_max/all_data.csv",
+  "selected_negative_ids_path": "legacy_original_workspace/outputs/anchored_imbalance_dataset_seed_datasets/dataset_seed_42/ratio_max/selected_negative_ids.csv",
+  "feature_path": "legacy_original_workspace/outputs/anchored_imbalance_dataset_seed_datasets/dataset_seed_42/ratio_max/esm2_per_residue_features.pkl"
+}

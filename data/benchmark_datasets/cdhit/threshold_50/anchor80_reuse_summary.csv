@@ -1,0 +1,13 @@
+anchor80_reuse_status,length_bin,count,threshold
+anchor80_reused,bin1_42_77,260,50
+anchor80_reused,bin2_78_85,240,50
+anchor80_reused,bin3_86_95,205,50
+anchor80_reused,bin4_96_100,71,50
+anchor80_reused,bin5_101_132,108,50
+anchor80_reused,bin6_133_200,207,50
+threshold_compliant_supplement,bin1_42_77,360,50
+threshold_compliant_supplement,bin2_78_85,260,50
+threshold_compliant_supplement,bin3_86_95,475,50
+threshold_compliant_supplement,bin4_96_100,49,50
+threshold_compliant_supplement,bin5_101_132,342,50
+threshold_compliant_supplement,bin6_133_200,433,50

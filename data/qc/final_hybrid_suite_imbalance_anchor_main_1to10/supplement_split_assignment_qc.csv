@@ -1,0 +1,13 @@
+ratio,split,target_negative_count,preexisting_negative_count,supplement_assigned_count
+1:20,train,4300,2150,2150
+1:20,val,1076,538,538
+1:20,test,1344,672,672
+1:30,train,6450,4300,2150
+1:30,val,1614,1076,538
+1:30,test,2016,1344,672
+1:40,train,8600,6450,2150
+1:40,val,2152,1614,538
+1:40,test,2688,2016,672
+1:50,train,10750,8600,2150
+1:50,val,2690,2152,538
+1:50,test,3360,2688,672

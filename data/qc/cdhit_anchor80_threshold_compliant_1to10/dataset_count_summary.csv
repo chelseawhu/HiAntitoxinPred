@@ -1,0 +1,3 @@
+threshold,positive_count,negative_count,rows,retained_negative_candidate_count,anchor80_reused_negative_count,supplement_negative_count,anchor80_reuse_rate
+50,301,3010,3311,7982,1091,1919,0.362458
+40,272,2720,2992,4734,683,2037,0.251103

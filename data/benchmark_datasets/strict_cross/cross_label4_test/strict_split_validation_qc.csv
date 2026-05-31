@@ -1,0 +1,4 @@
+dataset_name,split,positive_count,negative_count,negative_to_positive_ratio,positive_source_labels,negative_source_labels,strict_source_group_ok,ratio_ok
+strict_cross_source_hybrid_1to10_cap200/cross_label4_test,train,239,2390,10.0,"1,2,3","1,2,3",True,True
+strict_cross_source_hybrid_1to10_cap200/cross_label4_test,val,60,600,10.0,"1,2,3","1,2,3",True,True
+strict_cross_source_hybrid_1to10_cap200/cross_label4_test,test,37,370,10.0,4,4,True,True

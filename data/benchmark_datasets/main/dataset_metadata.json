@@ -1,0 +1,9 @@
+{
+  "dataset_name": "main_hybrid_1to10_cap200_length_stratified",
+  "stage": "main_hybrid_1to10_registered_final",
+  "source_processed": "data/benchmark_datasets/length_stratified_split_diagnostics/hybrid_oldneg_swissprot101_200_length_stratified/processed_sequences.csv",
+  "source_manifest": "data/manifests/length_stratified_split_diagnostics/hybrid_oldneg_swissprot101_200_length_stratified/split_manifest.json",
+  "negative_to_positive_ratio": 10,
+  "length_matching": "whole_dataset_custom_bins_exact_1to10_then_label_length_stratified_split",
+  "seed": 42
+}

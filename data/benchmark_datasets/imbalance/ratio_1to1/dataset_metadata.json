@@ -1,0 +1,11 @@
+{
+  "dataset_name": "ratio_1to1",
+  "stage": "imbalance_anchor_main_1to10",
+  "negative_to_positive_ratio": 1,
+  "negative_sampling": "nested_anchor_main_1to10_with_supplement_from_existing_hybrid_pool",
+  "seed": 42,
+  "main_anchor_processed_sequences": "data/benchmark_datasets/final_hybrid_suite_1to10/main_hybrid_1to10_cap200_length_stratified/processed_sequences.csv",
+  "main_anchor_manifest": "data/manifests/final_hybrid_suite_1to10/main_hybrid_1to10_cap200_length_stratified/split_manifest.json",
+  "supplement_source_processed_sequences": "data/benchmark_datasets/final_hybrid_suite_1to10/imbalance_hybrid_cap200_nested_random/ratio_1to50/processed_sequences.csv",
+  "ratio_1to10_policy": "locked_main_benchmark_identity"
+}

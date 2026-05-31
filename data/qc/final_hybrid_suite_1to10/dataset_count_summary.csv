@@ -1,0 +1,17 @@
+dataset_name,rows,positive_count,negative_count,negative_to_positive_ratio,min_length,max_length
+cdhit_hybrid_1to10_cap200/threshold_40,2992,272,2720,10.0,42,200
+cdhit_hybrid_1to10_cap200/threshold_50,3311,301,3010,10.0,42,200
+cdhit_hybrid_1to10_cap200/threshold_60,3509,319,3190,10.0,42,200
+cdhit_hybrid_1to10_cap200/threshold_70,3619,329,3290,10.0,42,200
+cdhit_hybrid_1to10_cap200/threshold_80,3696,336,3360,10.0,42,200
+cross_phylum_hybrid_1to10_cap200/cross_label1_test,3696,336,3360,10.0,42,200
+cross_phylum_hybrid_1to10_cap200/cross_label2_test,3696,336,3360,10.0,42,200
+cross_phylum_hybrid_1to10_cap200/cross_label3_test,3696,336,3360,10.0,42,200
+cross_phylum_hybrid_1to10_cap200/cross_label4_test,3696,336,3360,10.0,42,200
+imbalance_hybrid_cap200_nested_random/ratio_1to1,672,336,336,1.0,42,200
+imbalance_hybrid_cap200_nested_random/ratio_1to10,3696,336,3360,10.0,42,200
+imbalance_hybrid_cap200_nested_random/ratio_1to20,7056,336,6720,20.0,42,200
+imbalance_hybrid_cap200_nested_random/ratio_1to30,10416,336,10080,30.0,42,200
+imbalance_hybrid_cap200_nested_random/ratio_1to40,13776,336,13440,40.0,42,200
+imbalance_hybrid_cap200_nested_random/ratio_1to50,17136,336,16800,50.0,42,200
+main_hybrid_1to10_cap200_length_stratified,3696,336,3360,10.0,42,200

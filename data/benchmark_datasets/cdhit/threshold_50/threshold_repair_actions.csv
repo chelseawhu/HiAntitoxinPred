@@ -1,0 +1,6 @@
+threshold,repair_iteration,cluster_id,positive_members,negative_members,dropped_negative_ids
+50,1,2374,,bacteriocin_45;bacteriocin_47,bacteriocin_47
+50,1,3127,,P13068;bacteriocin_10,bacteriocin_10
+50,1,3133,,bacteriocin_48;Q9KWM4;bacteriocin_12,Q9KWM4;bacteriocin_48
+50,1,3142,,bacteriocin_39;P0C8P9,bacteriocin_39
+50,1,3183,,O54329;bacteriocin_24,bacteriocin_24

@@ -1,0 +1,16 @@
+{
+  "workspace_root": ".",
+  "dataset_root": "data/benchmark_datasets",
+  "feature_root": "features/esm2_1280/final_hybrid_suite_1to10",
+  "global_feature_dir": "features/esm2_1280/final_hybrid_suite_1to10/global_cap200_unique",
+  "dataset_feature_map_dir": "features/esm2_1280/final_hybrid_suite_1to10/dataset_feature_maps",
+  "esm2_model_path": "facebook/esm2_t33_650M_UR50D",
+  "device": "cuda:0",
+  "batch_size": 2,
+  "max_length": 256,
+  "expected_feature_dim": 1280,
+  "progress_description": "Extracting final hybrid suite ESM2-1280",
+  "sequence_column": "sequence",
+  "id_column": "id",
+  "label_column": "label"
+}

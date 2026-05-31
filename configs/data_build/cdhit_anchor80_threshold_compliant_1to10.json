@@ -1,0 +1,46 @@
+{
+  "seed": 42,
+  "cap_length": 200,
+  "positive_cap200_path": "data/processed/positives_cap200.csv",
+  "split": {
+    "train_fraction": 0.64,
+    "val_fraction": 0.16,
+    "test_fraction": 0.20
+  },
+  "length_bins": [
+    {"name": "bin1_42_77", "min_len": 42, "max_len": 77, "negative_source": "old_negative_pool"},
+    {"name": "bin2_78_85", "min_len": 78, "max_len": 85, "negative_source": "old_negative_pool"},
+    {"name": "bin3_86_95", "min_len": 86, "max_len": 95, "negative_source": "old_negative_pool"},
+    {"name": "bin4_96_100", "min_len": 96, "max_len": 100, "negative_source": "old_negative_pool"},
+    {"name": "bin5_101_132", "min_len": 101, "max_len": 132, "negative_source": "swissprot_101_200"},
+    {"name": "bin6_133_200", "min_len": 133, "max_len": 200, "negative_source": "swissprot_101_200"}
+  ],
+  "cdhit": {
+    "cd_hit_bin": "cd-hit",
+    "cd_hit_2d_bin": "cd-hit-2d",
+    "threads": 8,
+    "global_similarity_threshold": 80
+  },
+  "inputs": {
+    "anchor80_processed": "data/benchmark_datasets/cdhit/threshold_80/processed_sequences.csv",
+    "anchor80_manifest": "data/manifests/cdhit/threshold_80/split_manifest.json",
+    "primary_negative_pool": "data/legacy_sources/hybrid_negative_pools/hybrid_negative_pool_final.csv",
+    "fallback_negative_pool": "external_artifacts/hybrid_negative_pool_before_cdhit.csv",
+    "existing_primary_cdhit_work_root": "data/processed/cdhit_work"
+  },
+  "datasets": {
+    "cdhit": {
+      "name": "cdhit_anchor80_threshold_compliant_1to10",
+      "anchor_threshold": 80,
+      "negative_to_positive_ratio": 10,
+      "thresholds": [80, 70, 60, 50, 40]
+    }
+  },
+  "outputs": {
+    "benchmark_root": "data/benchmark_datasets/cdhit_anchor80_threshold_compliant_1to10",
+    "manifest_root": "data/manifests/cdhit_anchor80_threshold_compliant_1to10",
+    "processed_root": "data/processed/cdhit_anchor80_threshold_compliant_1to10",
+    "qc_root": "data/qc/cdhit_anchor80_threshold_compliant_1to10",
+    "report_md": "notes/cdhit_anchor80_threshold_compliant_1to10_dataset_report.md"
+  }
+}

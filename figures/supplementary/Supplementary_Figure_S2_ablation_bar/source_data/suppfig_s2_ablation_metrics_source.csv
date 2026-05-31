@@ -1,0 +1,5 @@
+Ablation variant,Model,Module configuration,Structure,Threshold,Accuracy,Precision,Recall,Specificity,F1,MCC,ROC-AUC,PR-AUC,TP/FP/TN/FN,model_order,ablation_display_name,plot_label
+HiAntitoxinPred,Full_Model,PERE + DMCME + TGCE + GIAC,Transformer + CNN + gated fusion,0.7,0.9878,1.0,0.8636,1.0,0.9268,0.9232,0.9307,0.9071,57/0/672/9,0,HiAntitoxinPred (PERE + DMCME + TGCE + GIAC),Full
+w/o DMCME,No_CNN,PERE + TGCE + classifier,Transformer-based global context branch only,0.36,0.9837,0.95,0.8636,0.9955,0.9048,0.8971,0.9253,0.9024,57/3/669/9,1,w/o DMCME,w/o DMCME
+w/o TGCE,No_Transformer_CNNOnly,PERE + DMCME + classifier,Dynamic multi-scale CNN motif branch only,0.16,0.9797,0.918,0.8485,0.9926,0.8819,0.8716,0.9125,0.8746,56/5/667/10,2,w/o TGCE,w/o TGCE
+No_Both,No_Both,PERE + pooled classifier,PLM-derived pooled representation baseline,0.1,0.9756,0.875,0.8485,0.9881,0.8615,0.8483,0.9568,0.893,56/8/664/10,3,No_Both,No_Both

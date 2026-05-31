@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hiantitoxinpred"
+version = "0.1.0"
+description = "HiAntitoxinPred: Full Model code for antitoxin prediction from protein language model embeddings."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+  {name = "HiAntitoxinPred contributors"}
+]
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "matplotlib",
+  "seaborn",
+  "tqdm",
+  "torch",
+  "transformers"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

@@ -1,0 +1,4 @@
+metric,mean,std,description
+Domain AUPRC,0.9692334568790534,0.0259359741180724,AUPRC for using residue-level saliency to recover annotated domain residues.
+Top-L precision,0.9105263157894736,0.047805005591013,"Fraction of top-L saliency-ranked residues falling within the annotated domain, where L equals domain length."
+Top-L overlap,0.8973684210526315,0.0532854124508331,Pairwise overlap fraction of top-L saliency-ranked residues across five model seeds.

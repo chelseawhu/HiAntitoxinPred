@@ -1,0 +1,6 @@
+threshold,dataset_name,rows,clusters,multi_member_clusters,pass
+80,threshold_80,3696,3696,0,True
+70,threshold_70,3619,3619,0,True
+60,threshold_60,3509,3509,0,True
+50,threshold_50,3311,3311,0,True
+40,threshold_40,2992,2992,0,True
