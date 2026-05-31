@@ -17,6 +17,7 @@ logs/
 checkpoints/
 *.pkl
 *.pt
+!pretrained/best_model.pt
 *.pth
 *.npz
 *.npy
@@ -33,4 +34,3 @@ checkpoints/
 # OS/editor
 .DS_Store
 Thumbs.db
-
