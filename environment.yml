@@ -1,21 +1,28 @@
 name: hiantitoxinpred
+
+# Validated with (exact versions this release was tested on):
+#   python 3.11.15 | pytorch 2.12.0 (CUDA 13.0 build) | transformers 5.12.0
+#   numpy 2.4.6 | pandas 3.0.3 | scikit-learn 1.9.0
+#   accelerate 1.14.0 | safetensors 0.8.0
+# PyTorch is pinned by lower bound only so the solver can pick a build matching
+# your local CUDA. If you end up with a CPU-only build, install the matching
+# wheel from https://pytorch.org/get-started/locally/ .
 channels:
   - pytorch
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
+  - python=3.11
   - pip
-  - numpy
-  - pandas
-  - scikit-learn
-  - matplotlib
-  - seaborn
-  - tqdm
-  - pytorch
+  - numpy>=2.0
+  - pandas>=2.0
+  - scikit-learn>=1.4
+  - matplotlib>=3.7
+  - seaborn>=0.12
+  - tqdm>=4.65
+  - pytorch>=2.2
   - pip:
-      - transformers
-      - accelerate
-      - safetensors
+      - transformers>=4.40
+      - accelerate>=0.30
+      - safetensors>=0.4
       - -e .
-

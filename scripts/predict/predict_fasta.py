@@ -152,6 +152,27 @@ def build_model(config_path: Path, feature_dim: int, checkpoint_path: Path, devi
     return model
 
 
+def resolve_threshold(cli_threshold: float | None, checkpoint_path: str | Path) -> Tuple[float, str]:
+    """Pick the decision threshold: explicit CLI value > checkpoint provenance > 0.5.
+
+    The released checkpoint is calibrated at a non-0.5 threshold (the validation-MaxF1
+    value stored in its *_provenance.json). Defaulting to 0.5 would systematically
+    under-call positives, so the recommended threshold travels with the checkpoint.
+    """
+    if cli_threshold is not None:
+        return float(cli_threshold), "command-line --threshold"
+    checkpoint_path = Path(checkpoint_path)
+    provenance = checkpoint_path.with_name(checkpoint_path.stem + "_provenance.json")
+    if provenance.exists():
+        try:
+            recommended = json.loads(provenance.read_text()).get("recommended_threshold_prob")
+        except (ValueError, OSError):
+            recommended = None
+        if recommended is not None:
+            return float(recommended), f"checkpoint provenance ({provenance.name})"
+    return 0.5, "fallback default 0.5 (no checkpoint-specific threshold found)"
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Predict antitoxins from protein FASTA using HiAntitoxinPred.")
     parser.add_argument("--fasta", required=True, help="Input protein FASTA file.")
@@ -170,12 +191,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--batch-size", type=int, default=2)
     parser.add_argument("--max-length", type=int, default=256)
-    parser.add_argument("--threshold", type=float, default=0.5, help="Probability threshold for binary prediction.")
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=None,
+        help="Probability threshold for the positive (antitoxin) call. If omitted, "
+        "use the checkpoint's recommended_threshold_prob from its *_provenance.json, "
+        "else fall back to 0.5 with a warning.",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+    threshold, threshold_source = resolve_threshold(args.threshold, args.checkpoint)
+    if threshold_source.startswith("fallback"):
+        print(
+            "WARNING: no --threshold given and no recommended threshold found for this "
+            "checkpoint; using 0.5, which may be wrong for this model. Calibrate the "
+            "threshold on a labelled validation set.",
+            file=sys.stderr,
+        )
+    print(f"Decision threshold: {threshold:.4f} (source: {threshold_source})")
     records = read_fasta(args.fasta)
     feature_records = extract_esm2_features(
         records,
@@ -202,8 +239,9 @@ def main() -> None:
                 "length": item["length"],
                 "probability": float(prob),
                 "logit": float(logit),
-                "prediction": int(float(prob) >= float(args.threshold)),
-                "threshold": float(args.threshold),
+                "prediction": int(float(prob) >= threshold),
+                "threshold": float(threshold),
+                "threshold_source": threshold_source,
             }
         )
     output_path = Path(args.output)

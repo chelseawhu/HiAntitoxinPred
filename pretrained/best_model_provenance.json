@@ -6,5 +6,8 @@
   "release_checkpoint_format": "PyTorch state_dict with floating tensors converted to float16 for GitHub-friendly distribution",
   "training_seed": 42,
   "feature_type": "ESM2-1280 per-residue embeddings",
-  "dataset": "main 1:10 hybrid benchmark"
+  "dataset": "main 1:10 hybrid benchmark",
+  "recommended_threshold_prob": 0.09,
+  "recommended_threshold_logit": -2.3136349291806306,
+  "threshold_note": "Validation-MaxF1 decision threshold selected for this seed_42 checkpoint on the main benchmark (test confusion TP/FP/TN/FN = 59/1/671/7). predict_fasta.py uses it automatically when --threshold is not passed. Re-calibrate on a labelled validation set for a different data distribution."
 }

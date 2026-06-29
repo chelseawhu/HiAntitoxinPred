@@ -31,6 +31,50 @@ processed benchmark datasets, figure source data, and lightweight examples.
 Users can regenerate ESM2 embeddings with the provided extraction script and
 retrain the Full Model from the processed benchmark datasets.
 
+## Reproduce The Main Experiment
+
+The release ships the locked main-benchmark Full Model (seed 42) at
+`pretrained/best_model.pt`. Install the environment, then reproduce the main
+**test** metrics from the released weights with a single command:
+
+```bash
+conda env create -f environment.yml
+conda activate hiantitoxinpred
+
+python scripts/evaluate/evaluate_main_checkpoint.py --device cpu
+```
+
+The script selects the MaxF1 threshold on validation, fixes it on the test set,
+and prints your numbers next to the locked paper values. Expected (single
+seed_42 checkpoint):
+
+| F1 | MCC | precision | recall | TP/FP/TN/FN |
+| --- | --- | --- | --- | --- |
+| 0.9365 | 0.9319 | 0.9833 | 0.8939 | 59/1/671/7 |
+
+Runtime is a few minutes on CPU (no GPU required); add `--device cuda:0` to use
+a GPU. The script needs the ESM2 per-residue feature file (see **Large files**
+below).
+
+Full 5-seed retraining (seeds 42–46) reproduces the headline result
+**F1 0.9206 ± 0.0161, MCC 0.9145 ± 0.0175** (see the retraining command in Quick
+Start and `docs/reproduce_full_model_benchmarks.md`).
+
+### Large files (ESM2 features and full checkpoints)
+
+The ESM2 per-residue feature pickle and the full 5-seed checkpoint collection
+are too large for GitHub. Either regenerate the features from the included
+sequences:
+
+```bash
+python scripts/feature_extraction/extract_esm2_embeddings.py \
+  --config configs/feature_extraction/esm2_1280_final_benchmarks.json \
+  --stages all --device cuda:0
+```
+
+or download the archived features/checkpoints from the release record:
+**<add Zenodo DOI here>**.
+
 ## Quick Start
 
 Install the package in editable mode:
