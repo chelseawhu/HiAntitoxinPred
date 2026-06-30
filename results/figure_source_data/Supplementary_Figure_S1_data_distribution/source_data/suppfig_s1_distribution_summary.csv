@@ -1,2 +1,0 @@
-positive_n,negative_n,positive_mean_length,negative_mean_length,positive_median_length,negative_median_length,length_ks_distance,length_wasserstein_distance_aa,aa_mean_abs_delta_percentage_points,aa_max_abs_delta_percentage_points,aa_pearson_r
-336,3360,104.00892857142857,102.2202380952381,90.0,90.0,0.0886904761904762,3.547580580580582,0.7090879176463322,2.729423533100462,0.9241633171642695

@@ -39,8 +39,7 @@ HiAntitoxinPred/
 │   ├── evaluate/             Checkpoint evaluation (single-seed and 5-seed)
 │   ├── predict/              Antitoxin prediction from a FASTA file
 │   ├── feature_extraction/   ESM2-1280 per-residue embedding extraction
-│   ├── train/                Full Model benchmark training
-│   └── figures/              Manuscript figure generation
+│   └── train/                Full Model benchmark training
 ├── configs/                  Feature-extraction and model-run configurations
 ├── data/
 │   ├── benchmark_datasets/   Processed sequences (main, CD-HIT, imbalance, cross-source)

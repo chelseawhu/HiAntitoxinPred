@@ -1,2 +1,0 @@
-sample_id,run_count,mean_diff_mean,mean_diff_std,domain_auc_roc_mean,domain_auc_roc_std,domain_auc_pr_mean,domain_auc_pr_std,topL_precision_mean,topL_precision_std,topL_recall_mean,topL_recall_std,empirical_p_mean_diff_mean,empirical_p_mean_diff_std,empirical_p_topL_mean,empirical_p_topL_std
-AT6247,5,0.0921138609119814,0.0092024886779691,0.955263157894737,0.0447234871195269,0.9692334568790534,0.0259359741180724,0.9105263157894736,0.047805005591013,0.9105263157894736,0.047805005591013,0.1206958608278344,0.0397864141784652,0.1476504699060188,0.0581707686842346
