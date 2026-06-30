@@ -1,5 +1,0 @@
-dataset_name,rows,positive_count,negative_count,negative_to_positive_ratio,min_length,max_length
-strict_cross_source_hybrid_1to10_cap200/cross_label1_test,3696,336,3360,10.0,42,200
-strict_cross_source_hybrid_1to10_cap200/cross_label2_test,3696,336,3360,10.0,42,200
-strict_cross_source_hybrid_1to10_cap200/cross_label3_test,3696,336,3360,10.0,42,200
-strict_cross_source_hybrid_1to10_cap200/cross_label4_test,3696,336,3360,10.0,42,200

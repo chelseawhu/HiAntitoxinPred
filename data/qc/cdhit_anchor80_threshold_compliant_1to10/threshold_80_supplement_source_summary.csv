@@ -1,3 +1,0 @@
-anchor80_reuse_status,candidate_pool,source_pool,negative_source,length_match_status,count,threshold
-anchor80_reused,primary,all_neagetive_xlsx,old_negative_pool,anchor80_original_dataset,2210,80
-anchor80_reused,primary,swissprot_functional_101_200,swissprot_101_200,anchor80_original_dataset,1150,80

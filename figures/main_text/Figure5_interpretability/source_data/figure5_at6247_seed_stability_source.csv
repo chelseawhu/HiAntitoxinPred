@@ -1,2 +1,0 @@
-sample_id,pair_count,spearman_mean,spearman_std,topL_jaccard_mean,topL_jaccard_std,topL_overlap_fraction_mean,topL_overlap_fraction_std
-AT6247,10,0.7909861668897813,0.1064702051937946,0.8176856476856477,0.0883978617258647,0.8973684210526315,0.0532854124508331

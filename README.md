@@ -16,7 +16,7 @@ processed benchmark datasets, figure source data, and lightweight examples.
 
 - Final model and training code snapshots.
 - Full Model benchmark configs.
-- Processed benchmark datasets, split manifests, and QC files.
+- Processed benchmark datasets and split manifests.
 - Locked manuscript-facing metric summaries.
 - Figure/table source data and generation scripts for manuscript figures.
 
@@ -34,13 +34,37 @@ retrain the Full Model from the processed benchmark datasets.
 ## Reproduce The Main Experiment
 
 The release ships the locked main-benchmark Full Model (seed 42) at
-`pretrained/best_model.pt`. Install the environment, then reproduce the main
-**test** metrics from the released weights with a single command:
+`pretrained/best_model.pt`. The fastest route is to download the Zenodo artifact
+package, place its feature files in the repository, and run the evaluation
+script.
+
+Install the environment:
 
 ```bash
 conda env create -f environment.yml
 conda activate hiantitoxinpred
+```
 
+Download and extract `HiAntitoxinPred_artifacts_v1.tar.gz` in the repository
+root, then place the archived paths into the repository:
+
+```bash
+wget -O HiAntitoxinPred_artifacts_v1.tar.gz \
+  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz?download=1"
+wget -O HiAntitoxinPred_artifacts_v1.tar.gz.sha256 \
+  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz.sha256?download=1"
+
+sha256sum -c HiAntitoxinPred_artifacts_v1.tar.gz.sha256
+
+tar -xzf HiAntitoxinPred_artifacts_v1.tar.gz
+cp -r HiAntitoxinPred_artifacts_v1/features .
+cp -r HiAntitoxinPred_artifacts_v1/checkpoints .
+cp -r HiAntitoxinPred_artifacts_v1/results/locked_metrics results/
+```
+
+Then reproduce the main **test** metrics from the released weights:
+
+```bash
 python scripts/evaluate/evaluate_main_checkpoint.py --device cpu
 ```
 
@@ -53,8 +77,16 @@ seed_42 checkpoint):
 | 0.9365 | 0.9319 | 0.9833 | 0.8939 | 59/1/671/7 |
 
 Runtime is a few minutes on CPU (no GPU required); add `--device cuda:0` to use
-a GPU. The script needs the ESM2 per-residue feature file (see **Large files**
-below).
+a GPU.
+
+If the feature file is missing, generate it once from the included benchmark
+sequences:
+
+```bash
+python scripts/feature_extraction/extract_esm2_embeddings.py \
+  --config configs/feature_extraction/esm2_1280_final_benchmarks.json \
+  --stages all --device cuda:0 --skip-completed
+```
 
 Full 5-seed retraining (seeds 42–46) reproduces the headline result
 **F1 0.9206 ± 0.0161, MCC 0.9145 ± 0.0175** (see the retraining command in Quick
@@ -63,8 +95,29 @@ Start and `docs/reproduce_full_model_benchmarks.md`).
 ### Large files (ESM2 features and full checkpoints)
 
 The ESM2 per-residue feature pickle and the full 5-seed checkpoint collection
-are too large for GitHub. Either regenerate the features from the included
-sequences:
+are too large for GitHub. They are packaged as:
+
+```text
+HiAntitoxinPred_artifacts_v1
+```
+
+After downloading and extracting the artifact package, copy its contents into
+the repository root (the archived paths already match this repository layout).
+The package includes the main-benchmark ESM2 feature file, full 5-seed
+main-benchmark checkpoints, locked metrics, and checkpoint provenance.
+
+Download from Zenodo:
+
+```bash
+wget -O HiAntitoxinPred_artifacts_v1.tar.gz \
+  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz?download=1"
+wget -O HiAntitoxinPred_artifacts_v1.tar.gz.sha256 \
+  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz.sha256?download=1"
+sha256sum -c HiAntitoxinPred_artifacts_v1.tar.gz.sha256
+```
+
+If the artifact package is not available, regenerate the ESM2 features from the
+included benchmark sequences:
 
 ```bash
 python scripts/feature_extraction/extract_esm2_embeddings.py \
@@ -72,8 +125,7 @@ python scripts/feature_extraction/extract_esm2_embeddings.py \
   --stages all --device cuda:0
 ```
 
-or download the archived features/checkpoints from the release record:
-**<add Zenodo DOI here>**.
+Zenodo DOI: https://doi.org/10.5281/zenodo.21025508
 
 ## Quick Start
 
