@@ -2,6 +2,11 @@
 
 This repository focuses on reproducing the HiAntitoxinPred Full Model results.
 
+The commands below **retrain** each benchmark from scratch (GPU, longer runs). To
+reproduce the main-benchmark headline directly from the released checkpoints
+without retraining, use `scripts/evaluate/evaluate_5seed_checkpoints.py` instead
+(see `docs/quick_start.md`).
+
 ## Main Benchmark
 
 ```bash

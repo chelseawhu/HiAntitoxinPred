@@ -45,5 +45,6 @@ tar -xzf HiAntitoxinPred_artifacts_v1.tar.gz
 cp -r HiAntitoxinPred_artifacts_v1/features .
 cp -r HiAntitoxinPred_artifacts_v1/checkpoints .
 cp -r HiAntitoxinPred_artifacts_v1/results/locked_metrics results/
-python scripts/evaluate/evaluate_main_checkpoint.py --device cpu
+python scripts/evaluate/evaluate_main_checkpoint.py --device cpu    # released seed_42 checkpoint
+python scripts/evaluate/evaluate_5seed_checkpoints.py --device cpu  # 5-seed headline (mean +/- std)
 ```

@@ -88,9 +88,26 @@ python scripts/feature_extraction/extract_esm2_embeddings.py \
   --stages all --device cuda:0 --skip-completed
 ```
 
-Full 5-seed retraining (seeds 42–46) reproduces the headline result
-**F1 0.9206 ± 0.0161, MCC 0.9145 ± 0.0175** (see the retraining command in Quick
-Start and `docs/reproduce_full_model_benchmarks.md`).
+### Headline 5-seed result (from the released checkpoints)
+
+The headline metric is the mean over five training seeds (42–46). After copying
+the Zenodo `checkpoints/` into the repository (see the command above), reproduce
+it directly from the released weights — no retraining required:
+
+```bash
+python scripts/evaluate/evaluate_5seed_checkpoints.py --device cpu
+```
+
+For each seed the script selects the MaxF1 threshold on validation, fixes it on
+the test set, then aggregates mean ± sample std (ddof=1) across seeds. Expected:
+
+| n seeds | F1 | MCC | precision | recall | accuracy |
+| --- | --- | --- | --- | --- | --- |
+| 5 | 0.9206 ± 0.0161 | 0.9145 ± 0.0175 | 0.9667 ± 0.0166 | 0.8788 ± 0.0186 | 0.9864 ± 0.0027 |
+
+Runtime is a few minutes on CPU. Alternatively, retrain all five seeds from
+scratch (GPU, longer) with the command in Quick Start and
+`docs/reproduce_full_model_benchmarks.md`.
 
 ### Large files (ESM2 features and full checkpoints)
 

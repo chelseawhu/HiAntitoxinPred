@@ -61,6 +61,25 @@ python scripts/feature_extraction/extract_esm2_embeddings.py \
   --skip-completed
 ```
 
+## Reproduce The Headline 5-seed Result (from the released checkpoints)
+
+The headline metric is the mean over five training seeds (42–46). With the
+Zenodo `checkpoints/` copied into the repository (above), reproduce it from the
+released weights without retraining:
+
+```bash
+python scripts/evaluate/evaluate_5seed_checkpoints.py --device cpu
+```
+
+For each seed it selects the MaxF1 threshold on validation, fixes it on the test
+set, then aggregates mean ± sample std (ddof=1) across seeds.
+
+Expected output:
+
+| n seeds | F1 | MCC | precision | recall | accuracy |
+| --- | --- | --- | --- | --- | --- |
+| 5 | 0.9206 ± 0.0161 | 0.9145 ± 0.0175 | 0.9667 ± 0.0166 | 0.8788 ± 0.0186 | 0.9864 ± 0.0027 |
+
 ## Predict From FASTA
 
 ```bash
@@ -71,7 +90,7 @@ python scripts/predict/predict_fasta.py \
   --device cuda:0
 ```
 
-## Full Retraining (optional, reproduces the 5-seed result)
+## Full Retraining (optional, trains the 5 seeds from scratch)
 
 ```bash
 python scripts/train/run_full_model_benchmarks.py \
