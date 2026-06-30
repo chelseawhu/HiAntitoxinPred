@@ -188,7 +188,7 @@ def parse_args() -> argparse.Namespace:
         help="HuggingFace model name or local path for ESM2-650M.",
     )
     parser.add_argument("--output", required=True, help="Output CSV path.")
-    parser.add_argument("--device", default="cuda:0")
+    parser.add_argument("--device", default="cpu", help="cpu (default) or cuda:N")
     parser.add_argument("--batch-size", type=int, default=2)
     parser.add_argument("--max-length", type=int, default=256)
     parser.add_argument(

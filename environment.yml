@@ -18,7 +18,6 @@ dependencies:
   - pandas>=2.0
   - scikit-learn>=1.4
   - matplotlib>=3.7
-  - seaborn>=0.12
   - tqdm>=4.65
   - pytorch>=2.2
   - pip:
