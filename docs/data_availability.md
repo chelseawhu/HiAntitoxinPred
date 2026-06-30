@@ -1,50 +1,44 @@
-# Data Availability
+# Data and Model Availability
 
-This release includes processed benchmark datasets, split manifests,
-figure/table source data, and locked metric summaries used for the
-manuscript-facing Full Model analyses.
+## In this repository
 
-Large generated artifacts are intentionally excluded from GitHub:
+This repository version-controls all source code together with the processed
+benchmark datasets, the train/validation/test split manifests, the
+feature-extraction and model-run configurations, and the locked manuscript metric
+summaries. The benchmark suites live under `data/benchmark_datasets/` (main,
+CD-HIT redundancy, class-imbalance, and cross-source) with their splits in
+`data/manifests/`. How the datasets were assembled is described in
+`docs/dataset_construction.md`.
 
-- ESM2 per-residue embedding pickle files.
-- Full checkpoint collections.
-- Runtime logs.
-- Optional large intermediate pools used during dataset construction.
+## Archived on Zenodo
 
-The model inputs can be regenerated from the included processed benchmark
-datasets with the provided ESM2 extraction script.
+The trained model weights and the ESM2-1280 feature files are too large for
+GitHub and are archived on Zenodo:
 
-## Large artifact package
+**DOI: [10.5281/zenodo.21079335](https://doi.org/10.5281/zenodo.21079335)**
 
-Large generated artifacts are archived as:
+The archive `HiAntitoxinPred_artifacts_v2.tar.gz` contains:
 
-```text
-HiAntitoxinPred_artifacts_v1
-```
+- `best_model.pt` — the released main-benchmark checkpoint (seed 42);
+- `checkpoints/main/seed_42…46/` — the full five-seed checkpoint collection;
+- `features/main_esm2_1280.pkl` — the main-benchmark ESM2-1280 per-residue features.
 
-It contains:
-
-- the comprehensive main-benchmark ESM2 feature pickle;
-- the full 5-seed main-benchmark checkpoint collection;
-- locked metric summaries;
-- released checkpoint provenance.
-
-Archive DOI: https://doi.org/10.5281/zenodo.21025508
-
-After downloading the archive, extract it and copy the archived paths into the
-repository root before running the released checkpoint evaluation:
+Download, verify, and unpack it into the repository:
 
 ```bash
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz?download=1"
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz.sha256 \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz.sha256?download=1"
-sha256sum -c HiAntitoxinPred_artifacts_v1.tar.gz.sha256
+wget -O HiAntitoxinPred_artifacts_v2.tar.gz \
+  "https://zenodo.org/records/21079335/files/HiAntitoxinPred_artifacts_v2.tar.gz?download=1"
+wget -O HiAntitoxinPred_artifacts_v2.tar.gz.sha256 \
+  "https://zenodo.org/records/21079335/files/HiAntitoxinPred_artifacts_v2.tar.gz.sha256?download=1"
+sha256sum -c HiAntitoxinPred_artifacts_v2.tar.gz.sha256
 
-tar -xzf HiAntitoxinPred_artifacts_v1.tar.gz
-cp -r HiAntitoxinPred_artifacts_v1/features .
-cp -r HiAntitoxinPred_artifacts_v1/checkpoints .
-cp -r HiAntitoxinPred_artifacts_v1/results/locked_metrics results/
-python scripts/evaluate/evaluate_main_checkpoint.py --device cpu    # released seed_42 checkpoint
-python scripts/evaluate/evaluate_5seed_checkpoints.py --device cpu  # 5-seed headline (mean +/- std)
+tar -xzf HiAntitoxinPred_artifacts_v2.tar.gz
+mkdir -p features
+cp -r HiAntitoxinPred_artifacts_v2/checkpoints .
+cp    HiAntitoxinPred_artifacts_v2/features/main_esm2_1280.pkl features/
+cp    HiAntitoxinPred_artifacts_v2/best_model.pt               pretrained/
 ```
+
+The ESM2-1280 features can alternatively be regenerated from the included
+benchmark sequences with `scripts/feature_extraction/extract_esm2_embeddings.py`
+(see `docs/embedding_extraction.md`).

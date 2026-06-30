@@ -140,7 +140,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--checkpoint", type=Path, default=default("pretrained/best_model.pt"))
     parser.add_argument("--config", type=Path, default=default("configs/model_runs/main_full_model_5seed.json"))
     parser.add_argument("--features", type=Path,
-                        default=default("features/esm2_1280/final_hybrid_suite_1to10/global_cap200_unique/esm2_per_residue_features.pkl"))
+                        default=default("features/main_esm2_1280.pkl"))
     parser.add_argument("--manifest", type=Path, default=default("data/manifests/main/split_manifest.json"))
     parser.add_argument("--sequences", type=Path, default=default("data/benchmark_datasets/main/processed_sequences.csv"))
     parser.add_argument("--device", default="cpu", help="cpu (default) or cuda:N")

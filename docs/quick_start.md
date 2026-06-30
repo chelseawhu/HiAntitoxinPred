@@ -10,20 +10,21 @@ conda activate hiantitoxinpred
 ## Reproduce The Main Experiment (from the released checkpoint)
 
 The release ships the locked main-benchmark Full Model (seed 42) at
-`pretrained/best_model.pt`. First place the Zenodo artifact contents in the
-repository root. Archive DOI: https://doi.org/10.5281/zenodo.21025508
+`pretrained/best_model.pt`. First download the Zenodo artifacts and place them in
+the repository. Archive DOI: https://doi.org/10.5281/zenodo.21079335
 
 ```bash
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz?download=1"
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz.sha256 \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz.sha256?download=1"
-sha256sum -c HiAntitoxinPred_artifacts_v1.tar.gz.sha256
+wget -O HiAntitoxinPred_artifacts_v2.tar.gz \
+  "https://zenodo.org/records/21079335/files/HiAntitoxinPred_artifacts_v2.tar.gz?download=1"
+wget -O HiAntitoxinPred_artifacts_v2.tar.gz.sha256 \
+  "https://zenodo.org/records/21079335/files/HiAntitoxinPred_artifacts_v2.tar.gz.sha256?download=1"
+sha256sum -c HiAntitoxinPred_artifacts_v2.tar.gz.sha256
 
-tar -xzf HiAntitoxinPred_artifacts_v1.tar.gz
-cp -r HiAntitoxinPred_artifacts_v1/features .
-cp -r HiAntitoxinPred_artifacts_v1/checkpoints .
-cp -r HiAntitoxinPred_artifacts_v1/results/locked_metrics results/
+tar -xzf HiAntitoxinPred_artifacts_v2.tar.gz
+mkdir -p features
+cp -r HiAntitoxinPred_artifacts_v2/checkpoints .
+cp    HiAntitoxinPred_artifacts_v2/features/main_esm2_1280.pkl features/
+cp    HiAntitoxinPred_artifacts_v2/best_model.pt               pretrained/
 ```
 
 Then reproduce the main **test** metrics with a single command:

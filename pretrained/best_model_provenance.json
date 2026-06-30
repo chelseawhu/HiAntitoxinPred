@@ -3,7 +3,7 @@
   "model": "HiAntitoxinPred Full Model",
   "source_experiment": "final_hybrid_suite_full_5seed/main/Full_Model/seed_42",
   "source_checkpoint": "internal manuscript training run checkpoint; converted from the locked main benchmark Full_Model seed_42 best checkpoint",
-  "release_checkpoint_format": "PyTorch state_dict with floating tensors converted to float16 for GitHub-friendly distribution",
+  "release_checkpoint_format": "PyTorch state_dict, full precision (seed_42 locked main-benchmark checkpoint)",
   "training_seed": 42,
   "feature_type": "ESM2-1280 per-residue embeddings",
   "dataset": "main 1:10 hybrid benchmark",

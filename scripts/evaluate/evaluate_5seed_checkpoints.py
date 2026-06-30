@@ -10,7 +10,7 @@ and compares the aggregate to the locked headline reported in the manuscript
 
 The full 5-seed checkpoint collection is distributed in the Zenodo artifact
 package (see README). After extracting it, the per-seed weights live at
-``checkpoints/final_hybrid_suite_full_5seed/main/seed_<seed>/best_model.pt``;
+``checkpoints/main/seed_<seed>/best_model.pt``;
 run the headline reproduction with:
 
     python scripts/evaluate/evaluate_5seed_checkpoints.py --device cpu
@@ -80,7 +80,7 @@ def find_checkpoints(checkpoints_dir: Path, seeds: List[int]) -> List[Tuple[int,
             f"missing checkpoints for seeds {missing} under:\n  {checkpoints_dir}\n"
             "Expected layout: <dir>/seed_<seed>/best_model.pt\n"
             "Download and extract the Zenodo artifact package (see README), which ships\n"
-            "checkpoints/final_hybrid_suite_full_5seed/main/seed_*/best_model.pt, or point\n"
+            "checkpoints/main/seed_*/best_model.pt, or point\n"
             "--checkpoints-dir at a directory that follows the seed_<seed>/best_model.pt layout."
         )
     return found
@@ -103,12 +103,12 @@ def evaluate_one(checkpoint: Path, config: Path, device: str, ids_val: List[str]
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--checkpoints-dir", type=Path,
-                        default=default("checkpoints/final_hybrid_suite_full_5seed/main"),
+                        default=default("checkpoints/main"),
                         help="Directory holding seed_<seed>/best_model.pt (Zenodo artifact layout).")
     parser.add_argument("--seeds", type=int, nargs="+", default=DEFAULT_SEEDS)
     parser.add_argument("--config", type=Path, default=default("configs/model_runs/main_full_model_5seed.json"))
     parser.add_argument("--features", type=Path,
-                        default=default("features/esm2_1280/final_hybrid_suite_1to10/global_cap200_unique/esm2_per_residue_features.pkl"))
+                        default=default("features/main_esm2_1280.pkl"))
     parser.add_argument("--manifest", type=Path, default=default("data/manifests/main/split_manifest.json"))
     parser.add_argument("--sequences", type=Path, default=default("data/benchmark_datasets/main/processed_sequences.csv"))
     parser.add_argument("--device", default="cpu", help="cpu (default) or cuda:N")

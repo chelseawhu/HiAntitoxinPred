@@ -1,20 +1,11 @@
-# Pretrained Checkpoints
+# Pretrained Checkpoint
 
-This directory contains the optional pretrained HiAntitoxinPred checkpoint used
-by the default FASTA prediction example.
+The released HiAntitoxinPred checkpoint (`best_model.pt`) is the main-benchmark
+Full Model trained with seed 42. It is **not** stored in this repository because
+of its size; download it from the Zenodo archive (DOI
+[10.5281/zenodo.21079335](https://doi.org/10.5281/zenodo.21079335)) and place it
+here as `pretrained/best_model.pt` (see `docs/data_availability.md`).
 
-The included checkpoint is the manuscript main-benchmark Full Model seed 42
-checkpoint converted to a PyTorch state_dict with floating tensors stored in
-float16. The model is instantiated in float32 and `load_state_dict` converts the
-stored tensors as needed.
-
-Expected filename for the default prediction example:
-
-```text
-best_model.pt
-```
-
-See `best_model_provenance.json` for the checkpoint provenance.
-
-The repository also supports full retraining from the processed benchmark
-datasets and regenerated ESM2 embeddings.
+The evaluation and prediction scripts expect the checkpoint at this path by
+default. Its decision threshold (0.09) and provenance are recorded in
+`best_model_provenance.json`, which is kept under version control.

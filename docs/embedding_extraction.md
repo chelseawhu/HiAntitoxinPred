@@ -1,91 +1,51 @@
 # ESM2 Embedding Extraction
 
-HiAntitoxinPred uses ESM2-1280 per-residue embeddings as model input. The
-repository does not include large precomputed embedding pickle files.
+HiAntitoxinPred uses ESM2-1280 per-residue embeddings
+(`facebook/esm2_t33_650M_UR50D`) as model input. These feature files are not
+version-controlled because of their size. The simplest way to obtain the
+main-benchmark features is to download the Zenodo archive
+(`features/main_esm2_1280.pkl`); see `docs/data_availability.md`. This page
+documents how to regenerate them from the included sequences instead.
 
-## When this step is needed
-
-Run this step if the following file is missing:
-
-```text
-features/esm2_1280/final_hybrid_suite_1to10/global_cap200_unique/esm2_per_residue_features.pkl
-```
-
-This feature file is required for both:
-
-- evaluating the released checkpoint with `scripts/evaluate/evaluate_main_checkpoint.py`;
-- retraining the Full Model on the main benchmark.
-
-If you do not want to regenerate the ESM2 features, download the archived
-artifact package from Zenodo instead:
-https://doi.org/10.5281/zenodo.21025508
-
-```bash
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz?download=1"
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz.sha256 \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz.sha256?download=1"
-sha256sum -c HiAntitoxinPred_artifacts_v1.tar.gz.sha256
-tar -xzf HiAntitoxinPred_artifacts_v1.tar.gz
-cp -r HiAntitoxinPred_artifacts_v1/features .
-```
-
-## Generate ESM2 features
-
-Generate embeddings from the included processed benchmark datasets:
+## Regenerate from sequences
 
 ```bash
 python scripts/feature_extraction/extract_esm2_embeddings.py \
   --config configs/feature_extraction/esm2_1280_final_benchmarks.json \
-  --stages all \
-  --device cuda:0 \
-  --skip-completed
+  --stages all --device cuda:0 --skip-completed
 ```
 
-The default model reference is:
-
-```text
-facebook/esm2_t33_650M_UR50D
-```
-
-The key output feature file is:
+The extraction writes the main-benchmark features to:
 
 ```text
 features/esm2_1280/final_hybrid_suite_1to10/global_cap200_unique/esm2_per_residue_features.pkl
 ```
 
-After it is generated, reproduce the released main checkpoint:
+The evaluation scripts read `features/main_esm2_1280.pkl` by default, so link the
+generated file to that path (or pass `--features <path>` explicitly):
 
 ```bash
-python scripts/evaluate/evaluate_main_checkpoint.py --device cpu
-```
-
-For full retraining, use the same feature file and run:
-
-```bash
-python scripts/train/run_full_model_benchmarks.py \
-  --config configs/model_runs/main_full_model_5seed.json \
-  --stages main \
-  --device cuda:0
+ln -sf esm2_1280/final_hybrid_suite_1to10/global_cap200_unique/esm2_per_residue_features.pkl \
+  features/main_esm2_1280.pkl
 ```
 
 ## Offline model cache
 
-If the ESM2 model is already cached locally, run in offline mode, for example:
+If the ESM2 model is already cached locally, run in offline mode:
 
 ```bash
 HF_HOME="$(pwd)/.cache/huggingface" HF_HUB_OFFLINE=1 \
 python scripts/feature_extraction/extract_esm2_embeddings.py \
   --config configs/feature_extraction/esm2_1280_final_benchmarks.json \
-  --stages all \
-  --device cuda:0 \
-  --skip-completed
+  --stages all --device cuda:0 --skip-completed
 ```
 
-Each feature record contains:
+## Feature record format
 
-- `id`: sample identifier.
-- `sequence`: normalized protein sequence.
-- `features`: per-residue matrix with shape `L x 1280`.
-- `length`: sequence length.
-- `feature_dim`: 1280.
+Each record contains:
+
+- `id` — sample identifier
+- `sequence` — normalized protein sequence
+- `features` — per-residue matrix of shape `L × 1280`
+- `length` — sequence length
+- `feature_dim` — 1280

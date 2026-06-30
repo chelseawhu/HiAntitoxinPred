@@ -1,199 +1,152 @@
 # HiAntitoxinPred
 
-HiAntitoxinPred is a protein language model based framework for antitoxin
-prediction. This repository provides the manuscript-facing Full Model workflow,
-processed benchmark datasets, figure source data, and lightweight examples.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21079335.svg)](https://doi.org/10.5281/zenodo.21079335)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/)
 
-## Current Release Scope
+HiAntitoxinPred is a protein language model framework for predicting bacterial
+antitoxins directly from amino-acid sequence. It encodes each protein with
+ESM2-1280 (`facebook/esm2_t33_650M_UR50D`) per-residue embeddings and feeds them
+to a multi-branch classifier that combines a Transformer encoder, multi-scale
+convolutional motif branches, gated feature fusion, and top-k motif pooling.
 
-- Predict antitoxin candidates from protein sequences.
-- Extract ESM2-1280 per-residue embeddings from benchmark sequences.
-- Train and evaluate the Full Model on the final manuscript benchmarks.
-- Reproduce the manuscript-facing Main, strict cross-source, CD-HIT, and
-  imbalance benchmark summaries.
+This repository accompanies the HiAntitoxinPred manuscript (under review) and
+provides the model and training code, the processed benchmark datasets, and
+one-command reproduction of the main results from released checkpoints.
 
-## Included In GitHub
+## Main results
 
-- Final model and training code snapshots.
-- Full Model benchmark configs.
-- Processed benchmark datasets and split manifests.
-- Locked manuscript-facing metric summaries.
-- Figure/table source data and generation scripts for manuscript figures.
+The primary benchmark is a 1:10 class-imbalanced, length-stratified split of
+antitoxin (positive) and non-antitoxin (negative) proteins capped at 200 residues
+(train / validation / test = 2365 / 593 / 738; 215 / 55 / 66 positives). The
+decision threshold is selected by maximising F1 on the validation split and then
+fixed on the test split.
 
-## Not Included In GitHub
+| Setting | F1 | MCC | Precision | Recall | Accuracy |
+| --- | --- | --- | --- | --- | --- |
+| Released checkpoint (seed 42) | 0.9365 | 0.9319 | 0.9833 | 0.8939 | 0.9892 |
+| Five seeds (42–46), mean ± sd | 0.9206 ± 0.0161 | 0.9145 ± 0.0175 | 0.9667 ± 0.0166 | 0.8788 ± 0.0186 | 0.9864 ± 0.0027 |
 
-- Precomputed ESM2 feature pickle files.
-- Full 5-seed model checkpoint collections.
-- Runtime logs and exploratory diagnostic experiments.
-- Large baseline intermediate files.
-- Optional large data-rebuild fallback pools.
+Both rows are reproduced from the released weights in a few minutes on CPU; see
+[Reproducing the main results](#reproducing-the-main-results).
 
-Users can regenerate ESM2 embeddings with the provided extraction script and
-retrain the Full Model from the processed benchmark datasets.
+## Repository structure
 
-## Reproduce The Main Experiment
+```
+HiAntitoxinPred/
+├── src/hiantitoxinpred/      Model, training loop, dataset, and metrics
+├── scripts/
+│   ├── evaluate/             Checkpoint evaluation (single-seed and 5-seed)
+│   ├── predict/              Antitoxin prediction from a FASTA file
+│   ├── feature_extraction/   ESM2-1280 per-residue embedding extraction
+│   ├── train/                Full Model benchmark training
+│   └── figures/              Manuscript figure generation
+├── configs/                  Feature-extraction and model-run configurations
+├── data/
+│   ├── benchmark_datasets/   Processed sequences (main, CD-HIT, imbalance, cross-source)
+│   └── manifests/            Train / validation / test split manifests
+├── results/locked_metrics/   Locked manuscript metric summaries
+├── pretrained/               Released-checkpoint provenance (weights via Zenodo)
+├── docs/                     Installation, reproduction, and dataset documentation
+└── tests/                    Unit tests (imports, metrics, release paths)
+```
 
-The release ships the locked main-benchmark Full Model (seed 42) at
-`pretrained/best_model.pt`. The fastest route is to download the Zenodo artifact
-package, place its feature files in the repository, and run the evaluation
-script.
-
-Install the environment:
+## Installation
 
 ```bash
 conda env create -f environment.yml
 conda activate hiantitoxinpred
 ```
 
-Download and extract `HiAntitoxinPred_artifacts_v1.tar.gz` in the repository
-root, then place the archived paths into the repository:
+The pinned, tested stack (Python 3.11, PyTorch 2.12, Transformers 5.12) is
+documented in `environment.yml`. A GPU is optional: evaluation runs on CPU.
+
+## Data and model availability
+
+The source code, processed benchmark datasets, split manifests, configuration
+files, and locked metric summaries are version-controlled in this repository.
+
+The trained model weights and the ESM2-1280 feature files are too large for
+GitHub and are archived on Zenodo under
+[doi:10.5281/zenodo.21079335](https://doi.org/10.5281/zenodo.21079335). Download
+and unpack them into the repository before running the evaluation scripts:
 
 ```bash
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz?download=1"
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz.sha256 \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz.sha256?download=1"
+wget -O HiAntitoxinPred_artifacts_v2.tar.gz \
+  "https://zenodo.org/records/21079335/files/HiAntitoxinPred_artifacts_v2.tar.gz?download=1"
+wget -O HiAntitoxinPred_artifacts_v2.tar.gz.sha256 \
+  "https://zenodo.org/records/21079335/files/HiAntitoxinPred_artifacts_v2.tar.gz.sha256?download=1"
+sha256sum -c HiAntitoxinPred_artifacts_v2.tar.gz.sha256
 
-sha256sum -c HiAntitoxinPred_artifacts_v1.tar.gz.sha256
-
-tar -xzf HiAntitoxinPred_artifacts_v1.tar.gz
-cp -r HiAntitoxinPred_artifacts_v1/features .
-cp -r HiAntitoxinPred_artifacts_v1/checkpoints .
-cp -r HiAntitoxinPred_artifacts_v1/results/locked_metrics results/
+tar -xzf HiAntitoxinPred_artifacts_v2.tar.gz
+mkdir -p features
+cp -r HiAntitoxinPred_artifacts_v2/checkpoints .
+cp    HiAntitoxinPred_artifacts_v2/features/main_esm2_1280.pkl features/
+cp    HiAntitoxinPred_artifacts_v2/best_model.pt               pretrained/
 ```
 
-Then reproduce the main **test** metrics from the released weights:
+The archive contains the released seed-42 checkpoint (`best_model.pt`), the full
+five-seed checkpoint set (`checkpoints/main/seed_42…46/`), and the main-benchmark
+ESM2-1280 features (`features/main_esm2_1280.pkl`). See `docs/data_availability.md`
+for details and `docs/dataset_construction.md` for how the datasets were built.
+
+## Reproducing the main results
+
+With the artifacts in place (above) and the environment active:
+
+**Released checkpoint (seed 42).** Selects the validation-MaxF1 threshold, fixes
+it on the test set, and prints the metrics next to the locked manuscript values.
 
 ```bash
 python scripts/evaluate/evaluate_main_checkpoint.py --device cpu
 ```
 
-The script selects the MaxF1 threshold on validation, fixes it on the test set,
-and prints your numbers next to the locked paper values. Expected (single
-seed_42 checkpoint):
+Expected test metrics: F1 0.9365, MCC 0.9319, precision 0.9833, recall 0.8939,
+confusion (TP/FP/TN/FN) 59/1/671/7.
 
-| F1 | MCC | precision | recall | TP/FP/TN/FN |
-| --- | --- | --- | --- | --- |
-| 0.9365 | 0.9319 | 0.9833 | 0.8939 | 59/1/671/7 |
-
-Runtime is a few minutes on CPU (no GPU required); add `--device cuda:0` to use
-a GPU.
-
-If the feature file is missing, generate it once from the included benchmark
-sequences:
-
-```bash
-python scripts/feature_extraction/extract_esm2_embeddings.py \
-  --config configs/feature_extraction/esm2_1280_final_benchmarks.json \
-  --stages all --device cuda:0 --skip-completed
-```
-
-### Headline 5-seed result (from the released checkpoints)
-
-The headline metric is the mean over five training seeds (42–46). After copying
-the Zenodo `checkpoints/` into the repository (see the command above), reproduce
-it directly from the released weights — no retraining required:
+**Five-seed headline.** Evaluates all five released checkpoints under the same
+protocol and aggregates the mean ± sample standard deviation (ddof = 1).
 
 ```bash
 python scripts/evaluate/evaluate_5seed_checkpoints.py --device cpu
 ```
 
-For each seed the script selects the MaxF1 threshold on validation, fixes it on
-the test set, then aggregates mean ± sample std (ddof=1) across seeds. Expected:
+Expected: F1 0.9206 ± 0.0161, MCC 0.9145 ± 0.0175.
 
-| n seeds | F1 | MCC | precision | recall | accuracy |
-| --- | --- | --- | --- | --- | --- |
-| 5 | 0.9206 ± 0.0161 | 0.9145 ± 0.0175 | 0.9667 ± 0.0166 | 0.8788 ± 0.0186 | 0.9864 ± 0.0027 |
-
-Runtime is a few minutes on CPU. Alternatively, retrain all five seeds from
-scratch (GPU, longer) with the command in Quick Start and
+Add `--device cuda:0` to use a GPU. To retrain all five seeds from scratch
+instead of evaluating the released weights, see
 `docs/reproduce_full_model_benchmarks.md`.
 
-### Large files (ESM2 features and full checkpoints)
-
-The ESM2 per-residue feature pickle and the full 5-seed checkpoint collection
-are too large for GitHub. They are packaged as:
-
-```text
-HiAntitoxinPred_artifacts_v1
-```
-
-After downloading and extracting the artifact package, copy its contents into
-the repository root (the archived paths already match this repository layout).
-The package includes the main-benchmark ESM2 feature file, full 5-seed
-main-benchmark checkpoints, locked metrics, and checkpoint provenance.
-
-Download from Zenodo:
-
-```bash
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz?download=1"
-wget -O HiAntitoxinPred_artifacts_v1.tar.gz.sha256 \
-  "https://zenodo.org/records/21025508/files/HiAntitoxinPred_artifacts_v1.tar.gz.sha256?download=1"
-sha256sum -c HiAntitoxinPred_artifacts_v1.tar.gz.sha256
-```
-
-If the artifact package is not available, regenerate the ESM2 features from the
-included benchmark sequences:
-
-```bash
-python scripts/feature_extraction/extract_esm2_embeddings.py \
-  --config configs/feature_extraction/esm2_1280_final_benchmarks.json \
-  --stages all --device cuda:0
-```
-
-Zenodo DOI: https://doi.org/10.5281/zenodo.21025508
-
-## Quick Start
-
-Install the package in editable mode:
-
-```bash
-conda env create -f environment.yml
-conda activate hiantitoxinpred
-```
-
-Extract ESM2 embeddings for the included benchmark datasets:
-
-```bash
-python scripts/feature_extraction/extract_esm2_embeddings.py \
-  --config configs/feature_extraction/esm2_1280_final_benchmarks.json \
-  --stages all \
-  --device cuda:0
-```
-
-Run the Full Model main benchmark:
-
-```bash
-python scripts/train/run_full_model_benchmarks.py \
-  --config configs/model_runs/main_full_model_5seed.json \
-  --stages main \
-  --device cuda:0
-```
-
-Run FASTA prediction with a trained checkpoint:
+## Predicting antitoxins from a FASTA file
 
 ```bash
 python scripts/predict/predict_fasta.py \
   --fasta data/examples/example_mixed.fasta \
   --checkpoint pretrained/best_model.pt \
   --output predictions.csv \
-  --device cuda:0
+  --device cpu
 ```
 
-Regenerate manuscript figures from the included source data:
+When `--threshold` is omitted, the checkpoint's calibrated decision threshold
+(0.09 for the released model; see `pretrained/best_model_provenance.json`) is
+applied automatically and recorded in the output.
 
-```bash
-python scripts/figures/plot_figure3.py
-python scripts/figures/plot_figure4.py --method-set main_table
-python scripts/figures/plot_figure5.py
-```
-
-Run lightweight release checks:
+## Tests
 
 ```bash
 python -m unittest discover -s tests
 ```
 
-See `docs/` for installation, embedding extraction, prediction, and benchmark
-reproduction notes.
+These checks (package imports, metric definitions, release-path hygiene) do not
+require the large artifacts.
+
+## Citation
+
+If you use HiAntitoxinPred, please cite the manuscript (under review) and the
+archived artifacts:
+
+> Dang, Y. *HiAntitoxinPred artifacts* (v2). Zenodo. https://doi.org/10.5281/zenodo.21079335
+
+## License
+
+Released under the MIT License; see [LICENSE](LICENSE).

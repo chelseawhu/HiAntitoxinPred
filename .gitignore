@@ -22,7 +22,6 @@ logs/
 checkpoints/
 *.pkl
 *.pt
-!pretrained/best_model.pt
 *.pth
 *.npz
 *.npy
