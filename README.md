@@ -47,9 +47,25 @@ hiantitoxinpred maia --fasta examples/AT6247.fasta --device cuda:0 --output resu
 
 Per-residue scores are saved to `protein_0001/residue_scores.csv`. Positive scores indicate that perturbation lowered the antitoxin score. [MAIA guide](docs/maia.md) · [Example outputs](examples/expected/README.md).
 
-## Training and evaluation
+## Training
 
-See [Main reproduction](docs/reproduce_main.md) for the fixed dataset, training commands and five-model results.
+```bash
+hiantitoxinpred download --assets main-features
+hiantitoxinpred train --config configs/main.json --seed 42 --device cuda:0 --output runs/seed42
+```
+
+## Evaluation
+
+```bash
+# Evaluate your trained checkpoint:
+hiantitoxinpred evaluate --checkpoint runs/seed42/L.pt --split test --device cuda:0 --output results/seed42
+
+# Or evaluate a supplied model:
+hiantitoxinpred download --assets main-models
+hiantitoxinpred evaluate --models assets/models --seed 42 --split test --device cuda:0 --output results/reference_seed42
+```
+
+Repeat with seeds 43–46 for five runs. See [Main reproduction](docs/reproduce_main.md) for the dataset and training settings.
 
 ## Citation and license
 
