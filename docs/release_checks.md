@@ -10,3 +10,9 @@ These checks were performed while preparing the release; users do not need to re
 - The public tests cover the above contracts, selection behavior and the input/download interfaces. Private migration tools and experiment runners are not shipped.
 
 A historical-GPU score comparison showed a maximum difference of approximately1.10e-4 with no classification changes. This is a recorded numerical difference, not a change to model weights, threshold or scientific results. Exact floating-point equality across machines is not required for use. See [numerical behavior](numerical_behavior.md).
+
+## Run the tests
+
+```bash
+python -m unittest discover -s tests -v
+```

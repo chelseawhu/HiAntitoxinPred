@@ -14,7 +14,19 @@ The fixed C1 recipe is weighted BCEWithLogits, positive weight `sqrt(N_negative_
 
 Early stopping monitors the sample-weighted validation objective loss with patience30, min_delta1e-5, max300. **Any strict decrease saves L**, even if too small to reset the early-stopping counter. Equal loss retains the earlier epoch. The stopping reason distinguishes patience from max_epochs. The selection lock is written before held-out evaluation; strict reload checks compare validation logits and classifications. Test metrics never determine the saved checkpoint.
 
-Use the commands in the README for all seeds42–46. Read `progress.json` during training; `COMPLETE.json` means training and validation reload passed, not that a test evaluation ran. The training directory records the effective config, input identity, environment, epoch loss, raw validation predictions, L and its lock. There is no implicit resume or automatic retry after failures.
+## Commands
+
+```bash
+hiantitoxinpred download --assets main-models
+hiantitoxinpred download --assets main-features
+# Evaluate a supplied model:
+hiantitoxinpred evaluate --models assets/models --seed 42 --split test --device cuda:0 --output results/reference_seed42
+# Train and evaluate a new model:
+hiantitoxinpred train --config configs/main.json --seed 42 --device cuda:0 --output runs/seed42
+hiantitoxinpred evaluate --checkpoint runs/seed42/L.pt --split test --device cuda:0 --output results/retrained_seed42
+```
+
+Repeat with seeds 43–46 for five runs. Read `progress.json` during training; `COMPLETE.json` means training and validation reload passed, not that a test evaluation ran. The training directory records the effective config, input identity, environment, epoch loss, raw validation predictions, L and its lock. There is no implicit resume or automatic retry after failures.
 
 Classification metrics use logit>=0. AUROC/AP use raw logits; AP means average precision. Compute each model's metrics separately, then mean and sample SD across the five seeds. Averaging probabilities first would instead evaluate an ensemble and does not reproduce the table.
 
