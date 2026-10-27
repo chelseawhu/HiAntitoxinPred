@@ -1,40 +1,20 @@
-# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.ipynb_checkpoints/
-
-# Environments
 .venv/
-venv/
-env/
-.conda/
-.cache/
-reproduction/
-predictions.csv
-
-# Large generated artifacts
-features/
-logs/
-checkpoints/
-*.pkl
+build/
+dist/
 *.pt
-*.pth
-*.npz
 *.npy
-*.log
+*.npz
+*.zip
+*.tar*
+*.partial
+runs/
+artifacts/
+cache/
+.env
 
-# Manuscript/build artifacts
-*.aux
-*.bbl
-*.blg
-*.fdb_latexmk
-*.fls
-*.synctex.gz
-
-# OS/editor
-.DS_Store
-Thumbs.db
+assets/
+results/local/

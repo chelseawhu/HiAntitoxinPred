@@ -1,0 +1,30 @@
+{
+  "case": "P9WJ87 / AT6247",
+  "sequence_sha256": "933002b270a402129cd37755fe257927774aeff111131c3b3d13a8272360d0b7",
+  "input_length": 82,
+  "model": {
+    "seed": 42,
+    "selected_epoch": 159,
+    "filename": "best_model.pt",
+    "source_sha256": "5346d95df06465a91ce64f387b63637a87d849743267cd5cf0b82e99bcc7b800",
+    "sha256": "af3ddd4ee791ac0c606ac4f2259e8a5200dffd48ed54e03655a77d2f6a2d2425",
+    "bytes": 117342194,
+    "validation_loss": 0.07575264291183899,
+    "effective_parameters": 25484547
+  },
+  "classifier_padding_width": 200,
+  "classifier_precision": "FP32",
+  "encoder_precision": "cuda_fp16_fp32wo",
+  "operator": "U19",
+  "groups": [
+    1001,
+    2001
+  ],
+  "repeats_per_group": 5,
+  "window": 20,
+  "stride": 1,
+  "windows": 63,
+  "perturbed_scores": 630,
+  "source": "Recorded fresh GPU inference; CSVs exported from raw scores and independently replayed aggregation",
+  "raw_score_record_sha256": "c74c3dc12cc9ad9f47788ca029ec60bd23268ef644515df6e89472101a636898"
+}

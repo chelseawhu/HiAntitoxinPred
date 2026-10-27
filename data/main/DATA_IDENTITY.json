@@ -1,0 +1,24 @@
+{
+  "files": {
+    "processed_sequences.csv": "7db7394da12383b12df472939d6c2f9f1410fdb356b85e64e5d3baf7094c7d5f",
+    "split_manifest.json": "5f2f227e3639c1b63f7c7db9415aa32a0861655113f9319ff421d5a3091e797d"
+  },
+  "counts": {
+    "train": [
+      215,
+      2150
+    ],
+    "val": [
+      54,
+      538
+    ],
+    "test": [
+      67,
+      672
+    ]
+  },
+  "feature_files": {
+    "index.json": "99592539958e6e90e4cf79cb2b0e35e252f99064002edfe8ac4c7986ec860bc2",
+    "per_residue.npy": "2f60c6d3baa676620e965c71042fa2ab7981358502ab80ba239861a570216437"
+  }
+}

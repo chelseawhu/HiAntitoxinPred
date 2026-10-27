@@ -1,32 +1,54 @@
-from __future__ import annotations
-
+import importlib
 import unittest
-
 import numpy as np
 
-from hiantitoxinpred.metrics import compute_binary_classification_metrics, select_threshold_by_f1
 
+class MetricTests(unittest.TestCase):
+    def setUp(self):
+        try:
+            self.api = importlib.import_module("hiantitoxinpred.metrics")
+        except ModuleNotFoundError:
+            self.api = None
+        self.assertIsNotNone(self.api, "Metrics API is not implemented")
 
-class MetricsTest(unittest.TestCase):
-    def test_confusion_matrix_fields(self) -> None:
-        y_true = np.array([0, 0, 1, 1])
-        scores = np.array([0.1, 0.8, 0.7, 0.2])
-        metrics = compute_binary_classification_metrics(y_true, scores, threshold=0.5)
+    def test_uses_raw_scores_even_when_sigmoid_saturates(self):
+        r = self.api.binary_metrics([0, 1, 0, 1], [100.0, 101.0, 102.0, 103.0])
+        self.assertAlmostEqual(r["AUROC"], 0.75)
+        self.assertAlmostEqual(r["AP"], 5 / 6)
+        self.assertAlmostEqual(r["precision"], 0.5)
+        self.assertAlmostEqual(r["recall"], 1.0)
+        self.assertAlmostEqual(r["F1"], 2 / 3)
+        self.assertEqual(r["MCC"], 0.0)
+        self.assertEqual(r["accuracy"], 0.5)
+        self.assertEqual([r[k] for k in ("TP", "FP", "TN", "FN")], [2, 2, 0, 0])
 
-        self.assertEqual(metrics["tn"], 1)
-        self.assertEqual(metrics["fp"], 1)
-        self.assertEqual(metrics["fn"], 1)
-        self.assertEqual(metrics["tp"], 1)
-        self.assertEqual(metrics["confusion_matrix"], [[1, 1], [1, 1]])
+    def test_zero_logit_is_positive(self):
+        r = self.api.binary_metrics([0, 1], [-1.0, 0.0])
+        self.assertEqual(r["F1"], 1.0)
+        self.assertEqual(r["AP"], 1.0)
 
-    def test_select_threshold_by_f1_returns_valid_threshold(self) -> None:
-        y_true = np.array([0, 0, 1, 1])
-        scores = np.array([0.05, 0.10, 0.80, 0.90])
-        threshold = select_threshold_by_f1(y_true, scores)
+    def test_reject_invalid_vectors(self):
+        pairs = [
+            ([0, 1], [0]),
+            ([0, 2], [0, 1]),
+            ([0, 1], [np.nan, 1]),
+            ([1, 1], [0, 1]),
+            ([], []),
+            ([[0, 1]], [[0, 1]]),
+        ]
+        for y, z in pairs:
+            with self.subTest(y=y, z=z), self.assertRaises(ValueError):
+                self.api.binary_metrics(y, z)
 
-        self.assertGreaterEqual(threshold, 0.0)
-        self.assertLessEqual(threshold, 1.0)
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_independent_run_summary_uses_sample_sd(self):
+        r = self.api.summarize_runs([{"F1": 0.8, "AP": 0.9}, {"F1": 1.0, "AP": 1.0}])
+        self.assertEqual(r["n"], 2)
+        self.assertAlmostEqual(r["mean"]["F1"], 0.9)
+        self.assertAlmostEqual(r["sd"]["F1"], np.sqrt(0.02))
+        for rows in (
+            [{"F1": 1.0}],
+            [{"F1": 1.0}, {"AP": 1.0}],
+            [{"F1": 1.0}, {"F1": np.nan}],
+        ):
+            with self.assertRaises(ValueError):
+                self.api.summarize_runs(rows)

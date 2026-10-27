@@ -1,28 +1,17 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "hiantitoxinpred"
-version = "0.1.0"
-description = "HiAntitoxinPred: Full Model code for antitoxin prediction from protein language model embeddings."
-readme = "README.md"
+version = "0.1.0.dev0"
+description = "ProtT5-based antitoxin prediction and MAIA attribution"
 requires-python = ">=3.9"
-license = {text = "MIT"}
-authors = [
-  {name = "HiAntitoxinPred contributors"}
-]
-dependencies = [
-  "numpy",
-  "pandas",
-  "scikit-learn",
-  "matplotlib",
-  "seaborn",
-  "tqdm",
-  "torch",
-  "transformers"
-]
+dependencies = ["torch>=2.5,<2.6", "numpy>=1.26,<2.1", "scikit-learn>=1.6,<1.7", "transformers==4.37.2", "sentencepiece==0.2.1"]
+license = {file = "LICENSE"}
+
+[project.scripts]
+hiantitoxinpred = "hiantitoxinpred.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

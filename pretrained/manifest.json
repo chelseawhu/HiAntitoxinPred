@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "release": "dynamic-main-maia-candidate-20261028",
+  "publication_status": "LOCAL_REVIEW_NOT_PUBLISHED",
+  "assets": {
+    "best-model": {
+      "filename": "best_model.pt",
+      "bytes": 117342194,
+      "sha256": "af3ddd4ee791ac0c606ac4f2259e8a5200dffd48ed54e03655a77d2f6a2d2425",
+      "url": null,
+      "destination": "models/best_model.pt",
+      "archive": false
+    },
+    "model-metadata": {
+      "filename": "model_metadata.zip",
+      "bytes": 4299,
+      "sha256": "d5c889345f703dfd72314d4be9302fa71ec9037e074e66121c19e0ef75550b51",
+      "url": null,
+      "destination": "models",
+      "archive": true,
+      "member_manifest": "MODEL_METADATA_CHECKSUMS.json"
+    },
+    "other-four": {
+      "filename": "main_other_four_models.zip",
+      "bytes": 433773512,
+      "sha256": "87a05c75485e4ad83a141b525f0244d6cc935672f0a5a2235f61cd2c0d5c9047",
+      "url": null,
+      "destination": "models",
+      "archive": true,
+      "member_manifest": "OTHER_FOUR_CHECKSUMS.json"
+    },
+    "main-features": {
+      "filename": "main_features.zip",
+      "bytes": 987357770,
+      "sha256": "a0fec71c758d96792a1b0a6b2b1c1a187863f297d38c5eee3e13930a1fbda1f0",
+      "url": null,
+      "destination": "main_features",
+      "archive": true
+    },
+    "encoder-config.json": {
+      "filename": "config.json",
+      "bytes": 656,
+      "sha256": "c93cc8c31433fb062cad1825a9c16cde962a2015c8a3b10cfdc5f76a85128db3",
+      "url": "https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc/resolve/94a6abc029ae13029317b140b7424e012bf8dfbf/config.json",
+      "destination": "encoder/config.json",
+      "archive": false
+    },
+    "encoder-pytorch_model.bin": {
+      "filename": "pytorch_model.bin",
+      "bytes": 2416373051,
+      "sha256": "7f51ba885541c7dc569d46b796af57cc7a2ba7945107dced4f19d1b5ec091157",
+      "url": "https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc/resolve/94a6abc029ae13029317b140b7424e012bf8dfbf/pytorch_model.bin",
+      "destination": "encoder/pytorch_model.bin",
+      "archive": false
+    },
+    "encoder-spiece.model": {
+      "filename": "spiece.model",
+      "bytes": 237990,
+      "sha256": "74da7b4afcde53faa570114b530c726135bdfcdb813dec3abfb27f9d44db7324",
+      "url": "https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc/resolve/94a6abc029ae13029317b140b7424e012bf8dfbf/spiece.model",
+      "destination": "encoder/spiece.model",
+      "archive": false
+    },
+    "encoder-tokenizer_config.json": {
+      "filename": "tokenizer_config.json",
+      "bytes": 25,
+      "sha256": "d3adf2fb21d1242b5c0b72602f02ce5b0c43f767c0f957e3b57a67b2f93bf4f2",
+      "url": "https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc/resolve/94a6abc029ae13029317b140b7424e012bf8dfbf/tokenizer_config.json",
+      "destination": "encoder/tokenizer_config.json",
+      "archive": false
+    },
+    "encoder-special_tokens_map.json": {
+      "filename": "special_tokens_map.json",
+      "bytes": 1787,
+      "sha256": "a4b8dfd3d9a75b0f6f9ddbcb52b147c7377f08aa9310e182829cda2a55684334",
+      "url": "https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc/resolve/94a6abc029ae13029317b140b7424e012bf8dfbf/special_tokens_map.json",
+      "destination": "encoder/special_tokens_map.json",
+      "archive": false
+    }
+  },
+  "groups": {
+    "best": [
+      "model-metadata",
+      "best-model"
+    ],
+    "main-models": [
+      "model-metadata",
+      "best-model",
+      "other-four"
+    ],
+    "encoder": [
+      "encoder-config.json",
+      "encoder-pytorch_model.bin",
+      "encoder-spiece.model",
+      "encoder-tokenizer_config.json",
+      "encoder-special_tokens_map.json"
+    ]
+  }
+}

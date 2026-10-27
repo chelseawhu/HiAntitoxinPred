@@ -1,0 +1,2 @@
+id,original_length,input_length,truncated,raw_logit,probability,prediction
+AT6247,82,82,False,30.244108200073242,1.0,1

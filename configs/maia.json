@@ -1,0 +1,13 @@
+{
+  "window": 20,
+  "stride": 1,
+  "operator": "U19",
+  "group_seeds": [
+    1001,
+    2001
+  ],
+  "repeats_per_group": 5,
+  "delta": "original raw logit minus perturbed raw logit",
+  "aggregation": "repeat mean, divide by actual window length, mean over covering windows",
+  "padding_width": 200
+}

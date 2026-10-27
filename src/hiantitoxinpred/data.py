@@ -1,301 +1,193 @@
+"""Sequence identity and explicit batching for Main and user FASTA inputs."""
+
 from __future__ import annotations
 
+import csv
 from dataclasses import dataclass
+import hashlib
+import json
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-import numpy as np
-import pandas as pd
 import torch
-from sklearn.model_selection import train_test_split
-from torch.utils.data import Dataset
 
-from .utils import ensure_dir, load_sequences_csv, read_json, read_pickle, write_json
+ALPHABET = frozenset("ACDEFGHIKLMNPQRSTVWYXBZOU")
 
 
-def _coerce_record_list(payload: Any) -> List[Dict[str, Any]]:
-    if isinstance(payload, dict) and "records" in payload:
-        payload = payload["records"]
-    elif isinstance(payload, dict):
-        if all(isinstance(value, dict) for value in payload.values()):
-            payload = list(payload.values())
-        else:
-            payload = [payload]
-    if not isinstance(payload, list):
-        raise ValueError("Unsupported feature payload format")
-    return [item for item in payload if isinstance(item, dict)]
+def sequence_sha256(sequence):
+    return hashlib.sha256(sequence.encode("ascii")).hexdigest()
 
 
-def load_feature_records(path: str | Path) -> List[Dict[str, Any]]:
-    records = _coerce_record_list(read_pickle(path))
-    output: List[Dict[str, Any]] = []
-    for item in records:
-        if "id" not in item:
-            continue
-        features = item.get("features", item.get("embedding"))
-        if features is None:
-            continue
-        features_np = np.asarray(features, dtype=np.float32)
-        if features_np.ndim == 1:
-            features_np = features_np.reshape(1, -1)
-        if features_np.ndim != 2:
-            continue
-        output.append(
-            {
-                "id": str(item["id"]),
-                "label": int(item.get("label", 0)),
-                "features": features_np,
-                "length": int(item.get("length", features_np.shape[0])),
-                "feature_dim": int(item.get("feature_dim", features_np.shape[1])),
-                "sequence": item.get("sequence"),
-            }
-        )
-    if not output:
-        raise ValueError(f"No usable feature records found in {path}")
-    return output
+def _sequence(sequence):
+    if not sequence or any(c not in ALPHABET for c in sequence):
+        raise ValueError("Empty sequence or unsupported amino-acid character")
+    return sequence
 
 
-def load_embedding_records(path: str | Path) -> Dict[str, np.ndarray]:
-    records = _coerce_record_list(read_pickle(path))
-    embedding_map: Dict[str, np.ndarray] = {}
-    for item in records:
-        sample_id = item.get("id")
-        embedding = item.get("embedding", item.get("features"))
-        if sample_id is None or embedding is None:
-            continue
-        vector = np.asarray(embedding, dtype=np.float32).reshape(-1)
-        embedding_map[str(sample_id)] = vector
-    if not embedding_map:
-        raise ValueError(f"No usable embedding records found in {path}")
-    return embedding_map
+@dataclass(frozen=True)
+class Protein:
+    id: str
+    original_sequence: str
+    sequence: str
+
+    @property
+    def original_length(self):
+        return len(self.original_sequence)
+
+    @property
+    def input_length(self):
+        return len(self.sequence)
+
+    @property
+    def truncated(self):
+        return self.input_length < self.original_length
+
+    @property
+    def sequence_sha256(self):
+        # Identity precedes the encoder's ambiguous-residue mapping.
+        return sequence_sha256(self.sequence)
+
+    @property
+    def encoder_sequence(self):
+        return self.sequence.translate(str.maketrans(dict.fromkeys("UZOB", "X")))
 
 
-def save_feature_records(
-    path: str | Path,
-    records: List[Dict[str, Any]],
-    *,
-    encoder: str,
-    feature_type: str = "per_residue",
-) -> Path:
-    from .utils import write_pickle
+def read_fasta(path):
+    """Normalize FASTA case/whitespace, preserve order, then truncate to cap200.
 
-    payload = {
-        "encoder": encoder,
-        "feature_type": feature_type,
-        "count": len(records),
-        "records": records,
-    }
-    return write_pickle(payload, path)
+    The first whitespace-delimited header token is the prediction ID. Gaps,
+    stops, digits and unsupported letters are rejected rather than removed.
+    """
+    proteins, seen, identifier, fragments = [], set(), None, []
 
+    def finish():
+        if identifier is None:
+            return
+        raw = "".join(fragments)
+        if not raw.isascii():
+            raise ValueError("Residue symbols must be ASCII letters")
+        seq = _sequence(raw.upper())
+        proteins.append(Protein(identifier, seq, seq[:200]))
 
-class ESMOnlyDataset(Dataset):
-    def __init__(self, esm_features: Sequence[np.ndarray], labels: Sequence[float], ids: Sequence[str]) -> None:
-        self.esm_list = [np.asarray(item, dtype=np.float32) for item in esm_features]
-        self.labels = torch.as_tensor(np.asarray(labels, dtype=np.float32).reshape(-1, 1))
-        self.ids = list(ids)
-
-    def __len__(self) -> int:
-        return len(self.ids)
-
-    def __getitem__(self, index: int) -> Dict[str, Any]:
-        esm = self.esm_list[index]
-        return {
-            "esm": torch.as_tensor(esm, dtype=torch.float32),
-            "esm_len": int(esm.shape[0]),
-            "one_hot": torch.zeros(1, dtype=torch.float32),
-            "aaindex": torch.zeros(1, dtype=torch.float32),
-            "label": self.labels[index],
-            "id": self.ids[index],
-        }
-
-
-def window_collate_fn(batch: List[Dict[str, Any]]) -> Dict[str, Any]:
-    lengths = [item["esm_len"] for item in batch]
-    max_len = max(lengths) if lengths else 0
-    feat_dim = batch[0]["esm"].shape[1] if batch else 0
-    padded = torch.zeros((len(batch), max_len, feat_dim), dtype=torch.float32)
-    for idx, item in enumerate(batch):
-        cur_len = item["esm_len"]
-        padded[idx, :cur_len, :] = item["esm"]
-    return {
-        "esm": padded,
-        "esm_len": torch.as_tensor(lengths, dtype=torch.long),
-        "one_hot": torch.stack([item["one_hot"] for item in batch], dim=0),
-        "aaindex": torch.stack([item["aaindex"] for item in batch], dim=0),
-        "label": torch.stack([item["label"] for item in batch], dim=0),
-        "id": [item["id"] for item in batch],
-    }
+    with Path(path).open() as stream:
+        for line in stream:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith(">"):
+                finish()
+                header = line[1:].split()
+                if not header:
+                    raise ValueError("Empty FASTA identifier")
+                identifier, fragments = header[0], []
+                if identifier in seen:
+                    raise ValueError(f"Duplicate FASTA ID: {identifier}")
+                seen.add(identifier)
+            else:
+                if identifier is None:
+                    raise ValueError("Sequence before FASTA header")
+                fragments.append("".join(line.split()))
+    finish()
+    if not proteins:
+        raise ValueError("Empty FASTA file")
+    return proteins
 
 
-def dataset_stats(dataset: ESMOnlyDataset) -> Dict[str, Any]:
-    labels = dataset.labels.detach().cpu().numpy().reshape(-1).astype(int)
-    return {
-        "size": int(len(labels)),
-        "positive_count": int(labels.sum()),
-        "negative_count": int(len(labels) - labels.sum()),
-    }
+def collate_features(values, *, width=None):
+    """Pad FP32 CPU residue tensors; no truncation or feature normalization.
+
+    None uses the registered longest-in-batch geometry (minimum width two for
+    the even convolution). An explicit width is an input policy chosen by the
+    caller, not a claim of equivalence to the registered evaluation geometry.
+    """
+    if not values:
+        raise ValueError("Empty feature batch")
+    dims = set()
+    for value in values:
+        if not isinstance(value, torch.Tensor) or value.ndim != 2:
+            raise ValueError("Features must be two-dimensional tensors")
+        if value.device.type != "cpu" or value.dtype != torch.float32:
+            raise ValueError("Collation requires CPU float32 features")
+        if (
+            not 1 <= len(value) <= 200
+            or value.shape[1] < 1
+            or not torch.isfinite(value).all()
+        ):
+            raise ValueError("Features must have 1..200 finite residue rows")
+        dims.add(value.shape[1])
+    if len(dims) != 1:
+        raise ValueError("Feature dimensions differ")
+    longest = max(map(len, values))
+    width = max(2, longest) if width is None else width
+    if (
+        isinstance(width, bool)
+        or not isinstance(width, int)
+        or not max(2, longest) <= width <= 200
+    ):
+        raise ValueError("Invalid padded width")
+    x = torch.zeros(len(values), width, next(iter(dims)), dtype=torch.float32)
+    mask = torch.zeros(len(values), width, dtype=torch.bool)
+    for i, value in enumerate(values):
+        x[i, : len(value)] = value
+        mask[i, : len(value)] = True
+    return x, mask
 
 
-def dataset_records(dataset: ESMOnlyDataset) -> List[Dict[str, Any]]:
-    labels = dataset.labels.detach().cpu().numpy().reshape(-1).astype(int)
-    return [{"id": sample_id, "label": int(label)} for sample_id, label in zip(dataset.ids, labels)]
+def read_main(csv_path, manifest_path):
+    """Validate registered Main records without renormalizing or re-splitting.
+
+    Cross-split sequence equality is rejected. This membership check is not a
+    replacement for the separately archived sequence-similarity audit.
+    """
+    with Path(csv_path).open(newline="") as f:
+        rows = list(csv.DictReader(f))
+    manifest = json.loads(Path(manifest_path).read_text())
+    keys = {"ids_train", "ids_val", "ids_test"}
+    if set(manifest) != keys or any(not isinstance(manifest[k], list) for k in keys):
+        raise ValueError("Expected train/val/test member lists")
+    by_id, sequence_splits = {}, {}
+    for row in rows:
+        if not {"id", "sequence", "label", "split", "sequence_sha256"} <= set(row):
+            raise ValueError("Missing Main record fields")
+        id_, seq = row["id"], _sequence(row["sequence"])
+        if not id_ or id_ in by_id or len(seq) > 200:
+            raise ValueError("Invalid or duplicate Main ID / input length")
+        if row["label"] not in ("0", "1") or row["split"] not in (
+            "train",
+            "val",
+            "test",
+        ):
+            raise ValueError("Invalid Main label or split")
+        if sequence_sha256(seq) != row["sequence_sha256"]:
+            raise ValueError(f"Sequence identity mismatch: {id_}")
+        if seq in sequence_splits and sequence_splits[seq] != row["split"]:
+            raise ValueError("Identical sequence appears across Main splits")
+        sequence_splits[seq] = row["split"]
+        by_id[id_] = dict(row, label=int(row["label"]))
+    all_ids = [id_ for key in keys for id_ in manifest[key]]
+    if not rows or len(set(all_ids)) != len(all_ids) or set(all_ids) != set(by_id):
+        raise ValueError("Missing, duplicated, overlapping or extra split members")
+    result = {}
+    for split in ("train", "val", "test"):
+        ids = manifest[f"ids_{split}"]
+        if not ids or any(by_id[id_]["split"] != split for id_ in ids):
+            raise ValueError("CSV and manifest split assignment disagree")
+        result[split] = [by_id[id_] for id_ in ids]
+    return result
 
 
-def validate_split_manifest(manifest: Dict[str, Any]) -> None:
-    train_ids = set(manifest["ids_train"])
-    val_ids = set(manifest["ids_val"])
-    test_ids = set(manifest["ids_test"])
-    if train_ids & val_ids or train_ids & test_ids or val_ids & test_ids:
-        raise ValueError("Split manifest contains overlapping ids")
+def read_registered_main(directory):
+    """Bind Main labels, member order and feature identities before evaluation."""
+    from .checkpoints import file_sha256
 
-
-def build_split_manifest(
-    sequences_csv: str | Path,
-    feature_records: Sequence[Dict[str, Any]],
-    output_path: str | Path,
-    *,
-    random_state: int = 42,
-    test_size: float = 0.2,
-    val_size: float = 0.2,
-) -> Dict[str, Any]:
-    sequences_df = load_sequences_csv(sequences_csv)
-    label_map = dict(zip(sequences_df["id"], sequences_df["label"]))
-    ids = [item["id"] for item in feature_records]
-    labels = [int(label_map.get(sample_id, item["label"])) for sample_id, item in zip(ids, feature_records)]
-    ids_temp, ids_test, y_temp, _ = train_test_split(
-        ids,
-        labels,
-        test_size=test_size,
-        random_state=random_state,
-        stratify=labels if len(set(labels)) > 1 else None,
+    root = Path(directory)
+    identity = json.loads((root / "DATA_IDENTITY.json").read_text())
+    for name in ("processed_sequences.csv", "split_manifest.json"):
+        if file_sha256(root / name) != identity["files"].get(name):
+            raise ValueError("Registered Main SHA256 mismatch: " + name)
+    expected = identity["feature_files"]
+    if set(expected) != {"index.json", "per_residue.npy"}:
+        raise ValueError("Incomplete registered Main feature identities")
+    return (
+        read_main(root / "processed_sequences.csv", root / "split_manifest.json"),
+        expected,
     )
-    ids_train, ids_val, _, _ = train_test_split(
-        ids_temp,
-        y_temp,
-        test_size=val_size,
-        random_state=random_state,
-        stratify=y_temp if len(set(y_temp)) > 1 else None,
-    )
-    manifest = {
-        "random_state": int(random_state),
-        "test_size": float(test_size),
-        "val_size": float(val_size),
-        "ids_train": list(ids_train),
-        "ids_val": list(ids_val),
-        "ids_test": list(ids_test),
-    }
-    validate_split_manifest(manifest)
-    write_json(manifest, output_path)
-    return manifest
-
-
-def load_or_create_split_manifest(
-    feature_records: Sequence[Dict[str, Any]],
-    sequences_csv: str | Path,
-    output_dir: str | Path,
-    *,
-    random_state: int = 42,
-    test_size: float = 0.2,
-    val_size: float = 0.2,
-) -> Tuple[Dict[str, Any], Path]:
-    output_dir = ensure_dir(output_dir)
-    manifest_path = output_dir / "split_manifest.json"
-    if manifest_path.exists():
-        manifest = read_json(manifest_path)
-        validate_split_manifest(manifest)
-        return manifest, manifest_path
-    manifest = build_split_manifest(
-        sequences_csv=sequences_csv,
-        feature_records=feature_records,
-        output_path=manifest_path,
-        random_state=random_state,
-        test_size=test_size,
-        val_size=val_size,
-    )
-    return manifest, manifest_path
-
-
-def build_datasets_from_manifest(
-    feature_records: Sequence[Dict[str, Any]],
-    manifest: Dict[str, Any],
-) -> Tuple[ESMOnlyDataset, ESMOnlyDataset, ESMOnlyDataset, Dict[str, Any]]:
-    validate_split_manifest(manifest)
-    feature_map = {item["id"]: item for item in feature_records}
-
-    def gather(ids: Sequence[str]) -> Tuple[List[np.ndarray], List[int]]:
-        rows = []
-        labels = []
-        for sample_id in ids:
-            if sample_id not in feature_map:
-                raise ValueError(f"Missing feature record for id={sample_id}")
-            row = feature_map[sample_id]
-            rows.append(np.asarray(row["features"], dtype=np.float32))
-            labels.append(int(row["label"]))
-        return rows, labels
-
-    train_esm, train_labels = gather(manifest["ids_train"])
-    val_esm, val_labels = gather(manifest["ids_val"])
-    test_esm, test_labels = gather(manifest["ids_test"])
-
-    train_ds = ESMOnlyDataset(train_esm, train_labels, manifest["ids_train"])
-    val_ds = ESMOnlyDataset(val_esm, val_labels, manifest["ids_val"])
-    test_ds = ESMOnlyDataset(test_esm, test_labels, manifest["ids_test"])
-    esm_dim = int(train_esm[0].shape[1]) if train_esm else int(val_esm[0].shape[1])
-    meta = {
-        "esm_dim": esm_dim,
-        "train_size": len(train_ds),
-        "val_size": len(val_ds),
-        "test_size": len(test_ds),
-        "ids_train": list(train_ds.ids),
-        "ids_val": list(val_ds.ids),
-        "ids_test": list(test_ds.ids),
-    }
-    return train_ds, val_ds, test_ds, meta
-
-
-def export_split_fastas(
-    manifest: Dict[str, Any],
-    sequences_csv: str | Path,
-    output_dir: str | Path,
-) -> Dict[str, str]:
-    sequences_df = load_sequences_csv(sequences_csv)
-    seq_map = dict(zip(sequences_df["id"], sequences_df["sequence"]))
-    output_dir = ensure_dir(output_dir)
-    outputs: Dict[str, str] = {}
-
-    def write_fasta(split_name: str, ids: Sequence[str], label: Optional[int] = None) -> Path:
-        fasta_path = output_dir / f"{split_name}.fasta"
-        with fasta_path.open("w", encoding="utf-8") as handle:
-            for sample_id in ids:
-                sequence = seq_map.get(sample_id)
-                if sequence is None:
-                    continue
-                header = sample_id if label is None else f"{sample_id}|label={label}"
-                handle.write(f">{header}\n{sequence}\n")
-        return fasta_path
-
-    for split_name, key in [("train", "ids_train"), ("val", "ids_val"), ("test", "ids_test")]:
-        ids = list(manifest[key])
-        outputs[f"{split_name}_all"] = str(write_fasta(f"{split_name}_all", ids))
-        pos_ids = [sample_id for sample_id in ids if int(sequences_df.loc[sequences_df["id"] == sample_id, "label"].iloc[0]) == 1]
-        neg_ids = [sample_id for sample_id in ids if int(sequences_df.loc[sequences_df["id"] == sample_id, "label"].iloc[0]) == 0]
-        outputs[f"{split_name}_positive"] = str(write_fasta(f"{split_name}_positive", pos_ids, label=1))
-        outputs[f"{split_name}_negative"] = str(write_fasta(f"{split_name}_negative", neg_ids, label=0))
-
-    write_json(outputs, output_dir / "fasta_inventory.json")
-    return outputs
-
-
-def load_relabeled_positive_table(path: str | Path) -> pd.DataFrame:
-    df = load_sequences_csv(path)
-    if "label" not in df.columns:
-        raise ValueError(f"Relabeled table is missing label column: {path}")
-    return df
-
-
-def group_relabeled_positive_records_by_label(feature_records: Sequence[Dict[str, Any]]) -> Dict[int, List[Dict[str, Any]]]:
-    groups: Dict[int, List[Dict[str, Any]]] = {}
-    for item in feature_records:
-        label = int(item["label"])
-        groups.setdefault(label, []).append(item)
-    return groups

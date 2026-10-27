@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Please cite the HiAntitoxinPred manuscript and the ProtT5 publication when using this software. Publication/Zenodo DOI will be added after author-approved release."
+title: "HiAntitoxinPred: Main prediction and MAIA"
+type: software
+version: 0.1.0.dev0
+authors:
+  - family-names: Dang
+    given-names: Yi
+  - family-names: Hu
+    given-names: Ronglong
+  - family-names: Hu
+    given-names: Xiaohua
+  - family-names: Ye
+    given-names: Mang
+  - family-names: Tan
+    given-names: Qingxiong
+repository-code: "https://github.com/chelseawhu/HiAntitoxinPred"
+license: MIT
