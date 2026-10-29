@@ -8,6 +8,7 @@ These checks were performed while preparing the release; users do not need to re
 - Public prediction was tested on lengths1,2,19,20,199,200 and201, plus ambiguous residues. CPU FP32 and GPU mixed-precision encoding are documented separately.
 - The default model was chosen by validation loss. Training accepts only train/validation datasets and evaluates held-out data through a separate command.
 - The public tests cover the above contracts, selection behavior and the input/download interfaces. Private migration tools and experiment runners are not shipped.
+- The local Main extraction workflow passed 71 CPU tests and a real-encoder smoke check on 20 Main sequences, including a two-epoch classifier fit, checkpoint evaluation, supplied-model evaluation and loading all five released models. The full original 3,696-member feature store also passed the new reader. This is a software acceptance check, not a new full Main training result; the newly added workflow was not tested end to end on GPU.
 
 A historical-GPU score comparison showed a maximum difference of approximately1.10e-4 with no classification changes. This is a recorded numerical difference, not a change to model weights, threshold or scientific results. Exact floating-point equality across machines is not required for use. See [numerical behavior](numerical_behavior.md).
 

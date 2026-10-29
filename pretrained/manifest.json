@@ -1,40 +1,30 @@
 {
   "schema_version": 1,
-  "release": "dynamic-main-maia-candidate-20261028",
-  "publication_status": "LOCAL_REVIEW_NOT_PUBLISHED",
+  "release": "3.0",
+  "publication_status": "PUBLISHED",
   "assets": {
     "best-model": {
       "filename": "best_model.pt",
       "bytes": 117342194,
       "sha256": "af3ddd4ee791ac0c606ac4f2259e8a5200dffd48ed54e03655a77d2f6a2d2425",
-      "url": null,
+      "url": "https://zenodo.org/api/records/23755956/files/best_model.pt/content",
       "destination": "models/best_model.pt",
       "archive": false
     },
     "model-metadata": {
       "filename": "model_metadata.zip",
-      "bytes": 4299,
-      "sha256": "d5c889345f703dfd72314d4be9302fa71ec9037e074e66121c19e0ef75550b51",
-      "url": null,
+      "bytes": 1091,
+      "sha256": "29c2da377e4f2e92f666a216abca5eec384f6d252277834bc6d7f58c8e3aba04",
+      "url": "https://zenodo.org/api/records/23755956/files/model_metadata.zip/content",
       "destination": "models",
-      "archive": true,
-      "member_manifest": "MODEL_METADATA_CHECKSUMS.json"
+      "archive": true
     },
     "other-four": {
       "filename": "main_other_four_models.zip",
-      "bytes": 433773512,
-      "sha256": "87a05c75485e4ad83a141b525f0244d6cc935672f0a5a2235f61cd2c0d5c9047",
-      "url": null,
+      "bytes": 433773155,
+      "sha256": "5d2ad1e5bb969738d075dff52bfb55eeb06344a0630db728c6243b4b875b3558",
+      "url": "https://zenodo.org/api/records/23755956/files/main_other_four_models.zip/content",
       "destination": "models",
-      "archive": true,
-      "member_manifest": "OTHER_FOUR_CHECKSUMS.json"
-    },
-    "main-features": {
-      "filename": "main_features.zip",
-      "bytes": 987357770,
-      "sha256": "a0fec71c758d96792a1b0a6b2b1c1a187863f297d38c5eee3e13930a1fbda1f0",
-      "url": null,
-      "destination": "main_features",
       "archive": true
     },
     "encoder-config.json": {
@@ -95,5 +85,6 @@
       "encoder-tokenizer_config.json",
       "encoder-special_tokens_map.json"
     ]
-  }
+  },
+  "doi": "10.5281/zenodo.23755956"
 }

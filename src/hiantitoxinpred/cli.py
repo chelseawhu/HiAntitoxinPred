@@ -12,7 +12,8 @@ from .artifacts import fetch_asset, extract_zip, load_registered_model
 from .checkpoints import file_sha256
 from .data import read_fasta, read_registered_main
 from .encoder import ProtT5Encoder
-from .features import FeatureStore, ResidueDataset
+from .features import ResidueDataset, load_main_features
+from .feature_extraction import extract_main_features
 from .inference import predict_features
 from .maia import explain
 from .metrics import binary_metrics
@@ -202,10 +203,24 @@ def maia(args):
     )
 
 
+def extract_features(args):
+    output = Path(args.output)
+    if output.exists() or output.is_symlink():
+        raise FileExistsError(output)
+    # Validate input and arguments before loading the large encoder.
+    read_registered_main(args.data_dir)
+    if args.encoder_batch_size < 1:
+        raise ValueError("Encoder batch size must be positive")
+    encoder = ProtT5Encoder(args.encoder, device=args.device, cache_dir=args.cache)
+    receipt = extract_main_features(
+        args.data_dir, output, encoder, batch_size=args.encoder_batch_size
+    )
+    print(f"Saved {receipt['count']} proteins to {output}", flush=True)
+
+
 def train(args):
     config, model = read_config(args.config)
-    rows, expected_features = read_registered_main(args.data_dir)
-    store = FeatureStore(args.features_dir, expected=expected_features)
+    rows, store = load_main_features(args.features_dir, args.data_dir)
     # Only train/validation datasets enter the trainer. No test prediction here.
     fit(
         ResidueDataset(rows["train"], store, "train"),
@@ -229,8 +244,7 @@ def evaluate(args):
         model, identity = load_registered_model(
             args.models, seed=args.seed, device=args.device
         )
-    rows, expected_features = read_registered_main(args.data_dir)
-    store = FeatureStore(args.features_dir, expected=expected_features)
+    rows, store = load_main_features(args.features_dir, args.data_dir)
     if args.checkpoint:
         source = json.loads(
             (Path(args.checkpoint).parent / "INPUT_IDENTITY.json").read_text()
@@ -262,6 +276,10 @@ def download(args):
     manifest = json.loads(Path(args.manifest).read_text())
     root = Path(args.directory)
     root.mkdir(parents=True, exist_ok=True)
+    if args.assets == "main-features" and args.assets not in manifest["assets"]:
+        raise ValueError(
+            "Main features are generated locally: run 'hiantitoxinpred extract-features --help'"
+        )
     names = manifest.get("groups", {}).get(args.assets, [args.assets])
     for name in names:
         entry = manifest["assets"][name]
@@ -329,6 +347,17 @@ def main(argv=None):
             p.add_argument(
                 "--operator", choices=["U19", "SHUFFLE_COMPOSITION"], default="U19"
             )
+    p = commands.add_parser(
+        "extract-features",
+        help="Generate fixed Main features with the frozen ProtT5 encoder",
+    )
+    p.set_defaults(action=extract_features)
+    p.add_argument("--data-dir", default="data/main")
+    p.add_argument("--encoder", default="assets/encoder")
+    p.add_argument("--device", default="cpu")
+    p.add_argument("--encoder-batch-size", type=int, default=2)
+    p.add_argument("--cache")
+    p.add_argument("--output", default="assets/main_features")
     p = commands.add_parser("train")
     p.set_defaults(action=train)
     p.add_argument("--config", default="configs/main.json")

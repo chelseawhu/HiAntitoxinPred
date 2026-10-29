@@ -1,7 +1,7 @@
 # Current model and checkpoint identity
 
 This package implements the adopted SimplifiedDynamic,
-cap200, C1/L HiAntitoxinPred model. Remote release assets are not yet published.
+cap200, C1/L HiAntitoxinPred model. Model assets are available in [Zenodo v3.0](https://doi.org/10.5281/zenodo.23755956).
 
 ## Inputs and outputs
 
@@ -20,12 +20,12 @@ single-modality gate that had no effect on C1 inference. No learned effective
 weight is omitted by conversion. The shared scorer bias remains for exact key
 mapping, although its common shift cancels in the branch softmax.
 
-## Released-model candidate
+## Released models
 
-The deployment candidate is `best_model.pt`, derived from the registered Main
+The default deployment model is `best_model.pt`, derived from the registered Main
 seed42 L checkpoint at epoch159. It has the lowest validation objective loss
 among the five registered models. The other seeds are 43,44,45,46 with L epochs
-134,83,173,175. The model index records original and converted file hashes.
+134,83,173,175. The model index records the supplied checkpoint hashes.
 
 The default model is not the average of the five models. Tables under
 `results/reference` contain separately computed historical per-seed validation
@@ -43,4 +43,4 @@ padding. The difference and validation checks are documented in
 [numerical behavior](numerical_behavior.md). The original checkpoints and paper
 results remain unchanged.
 
-The package also provides standalone training, evaluation, FASTA prediction and MAIA interfaces. Numerical evidence and limitations are listed in [release checks](release_checks.md). Zenodo model/data links are being prepared.
+The package also provides standalone Main feature extraction, training, evaluation, FASTA prediction and MAIA interfaces. Numerical evidence and limitations are listed in [release checks](release_checks.md). Main features are generated locally and are not included in the model download.

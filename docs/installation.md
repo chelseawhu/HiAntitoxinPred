@@ -27,7 +27,9 @@ CPU encoding uses FP32 and is slower than GPU encoding.
 
 `environment.yml` lists the tested Python dependencies. The release checks use RTX3090 GPUs with 24GB. Keep encoder batches at the default two sequences and classifier batches at 16 to match the recorded controls. CPU uses FP32 encoding; GPU uses the original FP16 load with 24 FP32 feed-forward `wo` parameters. The package rejects a blanket `.half()` layout and checks all five encoder file identities.
 
-Asset groups: `best` (default model and metadata), `main-models` (all five), `encoder`, `main-features`. Zenodo model/data links are being prepared. The manifest already provides the filenames and hashes for offline installation.
+Asset groups: `best` (default model and metadata), `main-models` (all five), and `encoder`. [Zenodo v3.0](https://doi.org/10.5281/zenodo.23755956) contains three files: `best_model.pt`, `model_metadata.zip`, and `main_other_four_models.zip`. The manifest provides their download URLs, filenames and hashes. The encoder is downloaded separately from its pinned upstream revision.
+
+Main features are generated locally with `hiantitoxinpred extract-features --device cuda:0` after installing the encoder. No `main_features.zip` download is needed. Use `--device cpu` for CPU extraction; see [Main reproduction](reproduce_main.md) for the complete workflow. FASTA prediction and MAIA generate their input features directly and do not require the Main feature store.
 
 `download --offline-dir DIR` reads the same filenames from a local directory. Files are verified by both size and SHA256 before installation. Existing files of a different identity cause an error; archives reject traversal paths and symbolic links. Downloads are retained in `assets/downloads/` for verification and reuse. They may be removed manually after confirming the installed assets, if disk space is limited.
 

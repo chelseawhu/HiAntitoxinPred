@@ -9,7 +9,7 @@ flowchart LR
     C -. "MAIA" .-> E["Residue scores"]
 ```
 
-**Model downloads:** Zenodo links are being prepared. See [offline installation](docs/installation.md#environment-and-assets) for local files.
+**Model downloads:** [Zenodo v3.0](https://doi.org/10.5281/zenodo.23755956). The commands below download and install the required models automatically. See [offline installation](docs/installation.md#environment-and-assets) for local files.
 
 ## Installation
 
@@ -50,11 +50,16 @@ Per-residue scores are saved to `protein_0001/residue_scores.csv`. Positive scor
 ## Training
 
 ```bash
-hiantitoxinpred download --assets main-features
+hiantitoxinpred download --assets encoder
+hiantitoxinpred extract-features --device cuda:0
 hiantitoxinpred train --config configs/main.json --seed 42 --device cuda:0 --output runs/seed42
 ```
 
+The fixed Main sequences and splits are included in `data/main/`. Extract features once, then reuse `assets/main_features/` for all training seeds and Main evaluations. Precomputed Main features are not a download requirement. Use `--device cpu` for CPU extraction, which is slower and uses FP32 encoding.
+
 ## Evaluation
+
+Generate Main features using the commands above before either evaluation route.
 
 ```bash
 # Evaluate your trained checkpoint:
@@ -65,7 +70,7 @@ hiantitoxinpred download --assets main-models
 hiantitoxinpred evaluate --models assets/models --seed 42 --split test --device cuda:0 --output results/reference_seed42
 ```
 
-Repeat with seeds 43–46 for five runs. See [Main reproduction](docs/reproduce_main.md) for the dataset and training settings.
+Repeat training/evaluation with seeds 43–46 for five runs. Regenerated features can differ numerically across devices, so exact agreement with archived metrics is not guaranteed. See [Main reproduction](docs/reproduce_main.md) for the dataset and training settings.
 
 ## Citation and license
 

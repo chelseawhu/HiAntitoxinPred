@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Please cite the HiAntitoxinPred manuscript and the ProtT5 publication when using this software. Publication/Zenodo DOI will be added after author-approved release."
+message: "Please cite the HiAntitoxinPred manuscript and the ProtT5 publication when using this software. The trained model release is available at https://doi.org/10.5281/zenodo.23755956 (Dang, Yi, 2026, HiAntitoxinPred artifacts v3, Version 3.0)."
 title: "HiAntitoxinPred: Main prediction and MAIA"
 type: software
 version: 0.1.0.dev0

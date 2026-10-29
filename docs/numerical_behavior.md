@@ -61,3 +61,7 @@ The encoder pins all five files to the experimental ProtT5 identity. GPU loading
 Two original Main inputs had exactly matching fresh-versus-cached features and logits in the GPU encoder control. CPU raw-score aggregation replay passed for all739 archived MAIA proteins. These finite controls do not claim that every possible new encoding is bitwise identical across devices.
 
 The optional feature cache binds the original input (before UZOB mapping), encoder file hashes, precision/software identity and encoder batch membership. Partial cache hits preserve the original batch geometry. Public prediction and MAIA default to width 200; MAIA also accepts the original per-protein reference width. Main evaluation remains longest-in-batch. See the MAIA guide for the two case commands.
+
+## Regenerating Main features
+
+`extract-features` re-encodes the fixed Main members with the pinned encoder and writes a separate feature store. It records the encoder software/precision identity, batch size, input hashes and generated file hashes. It uses train/validation/test manifest order with two sequences per encoder batch by default. This need not reproduce the original feature-extraction batch geometry. CPU FP32 and CUDA mixed-precision encodings may also differ. Regenerated features are therefore validated against their own hashes and the registered input/encoder protocol, rather than required to equal the archived feature-file hashes. Metrics obtained from fresh features are new results; archived paper metrics are not silently replaced.
